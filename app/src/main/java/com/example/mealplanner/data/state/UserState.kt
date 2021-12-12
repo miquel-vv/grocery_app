@@ -12,4 +12,9 @@ object UserState : Observable {
             field = value
             notifyObservers()
         }
+    var token:String = ""
+
+    fun getAuthHeader():String{
+        return "Bearer " + this.token
+    }
 }

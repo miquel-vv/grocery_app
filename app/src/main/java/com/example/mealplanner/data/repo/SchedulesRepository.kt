@@ -7,6 +7,7 @@ import com.example.mealplanner.data.state.ScheduleState
 import com.example.mealplanner.data.MealPlannerApi
 import com.example.mealplanner.data.model.Schedule
 import com.example.mealplanner.data.model.SchedulesResponse
+import com.example.mealplanner.data.state.UserState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -15,7 +16,7 @@ import retrofit2.Response
 
 object SchedulesRepository : Observer{
 
-    private var userRepo = LoginRepository
+    private var userState = UserState
     private val householdFilterState = HouseholdFilterState
     private val scheduleFilterState = ScheduleState
     private var viewModelJob = Job()
@@ -35,7 +36,7 @@ object SchedulesRepository : Observer{
             val schedules = mutableListOf<Schedule>()
             var response: Response<SchedulesResponse>
             try{
-                val authorization = userRepo.getAuthHeader()
+                val authorization = userState.getAuthHeader()
                 val selected = householdFilterState.selectedHousehold
                 for(household in householdFilterState.households){
                     if(selected == null || household==selected){

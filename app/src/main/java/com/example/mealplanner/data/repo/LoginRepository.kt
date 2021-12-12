@@ -1,5 +1,6 @@
 package com.example.mealplanner.data.repo
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.mealplanner.data.LoginDataSource
@@ -19,15 +20,11 @@ import retrofit2.Response
  * maintains an in-memory cache of login status and user credentials information.
  */
 
-object LoginRepository {
+class LoginRepository(private val dataSource: LoginDataSource){
 
-    private val dataSource = LoginDataSource()
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main )
-
-    val userState = UserState
-    var token: String=""
-        private set
+    private val userState = UserState
 
     fun logout() {
         userState.loggedInUser = null
@@ -35,7 +32,6 @@ object LoginRepository {
     }
 
     fun login(email: String, password: String, loginResult: MutableLiveData<User>) {
-        // handle login
         coroutineScope.launch {
             var user:User? = null
             var token:String = ""
@@ -49,6 +45,7 @@ object LoginRepository {
                     setLoggedInUser(user, token)
                     loginResult.value = user
                     Log.d("TEST", ">>>> Found user: $user")
+                    dataSource.storeToken(token)
                 }
             } catch(e:Exception){
                 Log.d("TEST", ">>>> something went horribly wrong")
@@ -58,10 +55,7 @@ object LoginRepository {
 
     private fun setLoggedInUser(user: User, token: String) {
         userState.loggedInUser = user
-        this.token = token
+        userState.token = token
     }
 
-    fun getAuthHeader():String{
-        return "Bearer " + this.token
-    }
 }

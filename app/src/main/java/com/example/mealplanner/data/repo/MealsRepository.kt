@@ -7,6 +7,7 @@ import com.example.mealplanner.data.model.Meal
 import com.example.mealplanner.data.state.DateFilterState
 import com.example.mealplanner.data.state.MealState
 import com.example.mealplanner.data.state.ScheduleState
+import com.example.mealplanner.data.state.UserState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -14,7 +15,7 @@ import kotlinx.coroutines.launch
 
 
 object MealsRepository : Observer{
-    private var userRepo = LoginRepository
+    private var userState = UserState
     private val scheduleState = ScheduleState
     private val mealState = MealState
     private val dateFilter = DateFilterState
@@ -35,7 +36,7 @@ object MealsRepository : Observer{
         coroutineScope.launch {
             val meals = mutableListOf<Meal>()
             try{
-                val authorization = userRepo.getAuthHeader()
+                val authorization = userState.getAuthHeader()
                 for(schedule in scheduleState.schedules){
                     val response = MealPlannerApi.scheduleService.getMeals(schedule.id, authorization)
                     if(response.isSuccessful){

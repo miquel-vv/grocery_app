@@ -13,9 +13,8 @@ import java.lang.Exception
 
 object HouseholdRepository : Observer {
 
-    val filterState = HouseholdFilterState
-    val userState = UserState
-    private var userRepo : LoginRepository = LoginRepository
+    private val filterState = HouseholdFilterState
+    private val userState = UserState
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main )
 
@@ -32,7 +31,7 @@ object HouseholdRepository : Observer {
     fun getHouseholds(){
         coroutineScope.launch {
             try {
-                val authorization = userRepo.getAuthHeader()
+                val authorization = userState.getAuthHeader()
                 val response = MealPlannerApi.householdService.getHouseholds(userState.loggedInUser!!.id, authorization)
                 if(response.isSuccessful){
                     filterState.households = response.body()!!.content.map { m -> m.household }
