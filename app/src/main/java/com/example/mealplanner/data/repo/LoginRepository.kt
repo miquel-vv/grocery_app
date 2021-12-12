@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import java.security.InvalidKeyException
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -28,10 +29,41 @@ class LoginRepository(private val dataSource: LoginDataSource){
 
     fun logout() {
         userState.loggedInUser = null
+        userState.token=""
         dataSource.logout()
     }
 
-    fun login(email: String, password: String, loginResult: MutableLiveData<User>) {
+    fun authenticated():Boolean{
+        val token:String
+        try{
+            token = dataSource.retrieveToken()
+            userState.token = token
+        } catch (e: InvalidKeyException){
+            return false
+        }
+        return true
+    }
+
+    fun updateUserFromToken(){
+        val id = dataSource.getUserIdFromToken(userState.token)
+        Log.d("TEST", "Found user with id: " + id)
+        coroutineScope.launch {
+            try{
+                val res = MealPlannerApi.loginService.get(id, userState.getAuthHeader())
+                if(res.isSuccessful){
+                    val user = res.body()!!.content
+                    Log.d("USERREPO", "User found : " + user.firstName)
+                    userState.loggedInUser = user
+                } else {
+                    throw Exception()
+                }
+            } catch (e:Exception){
+
+            }
+        }
+    }
+
+    fun login(email: String, password: String) {
         coroutineScope.launch {
             var user:User? = null
             var token:String = ""
@@ -43,7 +75,6 @@ class LoginRepository(private val dataSource: LoginDataSource){
                     user = res.body()?.content?.user!!
                     token = res.body()?.content?.token!!
                     setLoggedInUser(user, token)
-                    loginResult.value = user
                     Log.d("TEST", ">>>> Found user: $user")
                     dataSource.storeToken(token)
                 }

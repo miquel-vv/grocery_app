@@ -19,6 +19,10 @@ private val retrofit = Retrofit.Builder()
 interface LoginApiService {
     @POST("auth/login")
     suspend fun login(@Body body: LoginBody): Response<LoginResponse>
+
+    @GET("users/{id}")
+    suspend fun get(@Path("id") userId:Number, @Header("Authorization") authorization:String):
+            Response<UserResponse>
 }
 
 interface HouseholdApiService {

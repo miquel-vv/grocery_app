@@ -68,6 +68,10 @@ class LoginActivity : AppCompatActivity() {
 
         })
 
+        if(loginViewModel.isAuthenticated()){
+            loginViewModel.updateUserFromToken()
+        }
+
         username.afterTextChanged {
             loginViewModel.loginDataChanged(
                     username.text.toString(),
@@ -102,8 +106,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun updateUiWithUser(model: User) {
-        val welcome = getString(R.string.welcome)
-        val displayName = model.firstName
         val intent = Intent(this@LoginActivity, MainActivity::class.java)
         startActivity(intent);
     }

@@ -4,12 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import android.util.Patterns
+import com.example.mealplanner.Observer
 import com.example.mealplanner.data.repo.LoginRepository
 
 import com.example.mealplanner.R
 import com.example.mealplanner.data.model.User
+import com.example.mealplanner.data.state.UserState
 
-class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
+class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel(), Observer {
+
+    private val userState = UserState
 
     private val _loginForm = MutableLiveData<LoginFormState>()
     val loginFormState: LiveData<LoginFormState> = _loginForm
@@ -17,8 +21,20 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private val _loginResult = MutableLiveData<User>()
     val loginResult: LiveData<User> = _loginResult
 
+    init {
+        userState.addObserver(this)
+    }
+
     fun login(username: String, password: String) {
-        loginRepository.login(username, password, _loginResult)
+        loginRepository.login(username, password)
+    }
+
+    fun isAuthenticated():Boolean{
+        return loginRepository.authenticated()
+    }
+
+    fun updateUserFromToken(){
+        loginRepository.updateUserFromToken()
     }
 
     fun loginDataChanged(username: String, password: String) {
@@ -44,4 +60,11 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     private fun isPasswordValid(password: String): Boolean {
         return password.length > 1
     }
+
+    override fun update() {
+        if(userState.loggedInUser != null){
+            _loginResult.value = userState.loggedInUser
+        }
+    }
+
 }

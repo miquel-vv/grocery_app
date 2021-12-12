@@ -25,7 +25,9 @@ object HouseholdRepository : Observer {
 
     override fun update(){
         Log.d("HouseholdRepo", "Updating the households...")
-        getHouseholds()
+        if(userState.loggedInUser != null) {
+            getHouseholds()
+        }
     }
 
     fun getHouseholds(){
