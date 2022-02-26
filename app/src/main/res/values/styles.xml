@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="title">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
     <style name="meal_name">
         <item name="android:textAlignment">center</item>
         <item name="android:textSize">@dimen/normal_text_size</item>

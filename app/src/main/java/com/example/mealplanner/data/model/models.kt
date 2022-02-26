@@ -1,6 +1,9 @@
 package com.example.mealplanner.data.model
 
+import androidx.room.ColumnInfo
 import java.util.*
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 data class Link(val full:String, val route:String)
 data class MembershipLink(val isOwner:Boolean, val household:Link)
@@ -71,3 +74,25 @@ data class Meal(
     val numberOfPeople:Number,
     val spoontacularId:Number
 )
+
+@Entity(tableName = "grocery_items")
+data class GroceryItem(
+    @PrimaryKey(autoGenerate = true)
+    val id:Long,
+    @ColumnInfo(name="name")
+    val name:String,
+    @ColumnInfo(name="amount")
+    val amount:Float,
+    @ColumnInfo(name="unit")
+    val unit:String
+)
+
+/*
+@Entity(tableName = "grocery_lists")
+data class GroceryList(
+    @PrimaryKey(autoGenerate = true)
+    val id:Long,
+
+    val items: List<GroceryItem>
+)
+*/
