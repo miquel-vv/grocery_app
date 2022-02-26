@@ -3,7 +3,9 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="prompt_email">Email</string>
+    <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
+    <string name="prompt_confirm_password">Confirm Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_create_grocery_list">Create</string>
@@ -17,6 +19,4 @@
     <string name="end_date">End Date</string>
     <string name="date_hint">yyyy-mm-dd hh:mm</string>
     <string name="title_activity_login">LoginActivity</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

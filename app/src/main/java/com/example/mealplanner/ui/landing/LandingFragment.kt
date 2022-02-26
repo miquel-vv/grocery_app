@@ -21,6 +21,10 @@ class LandingFragment : Fragment() {
         binding.loginButton.setOnClickListener {view: View ->
             view.findNavController().navigate(R.id.action_landingFragment_to_loginFragment)
         }
+
+        binding.registerButton.setOnClickListener {view: View ->
+            view.findNavController().navigate(R.id.action_landingFragment_to_registerFragment)
+        }
         return binding.root;
     }
 }
