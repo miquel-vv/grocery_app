@@ -12,10 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MealPlanner">
         <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="false"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.MealPlanner.NoActionBar" />
+        <activity
             android:name=".ui.landing.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

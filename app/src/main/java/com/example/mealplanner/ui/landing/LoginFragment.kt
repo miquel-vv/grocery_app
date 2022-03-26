@@ -1,5 +1,6 @@
 package com.example.mealplanner.ui.landing
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,11 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.mealplanner.R
 import com.example.mealplanner.databinding.FragmentLoginBinding
+import com.example.mealplanner.ui.main.MainActivity
 
 class LoginFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,6 +18,11 @@ class LoginFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val binding : FragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false);
+        binding.login.setOnClickListener {
+            val intent = Intent(this.activity, MainActivity::class.java)
+            startActivity(intent)
+        }
+
         return binding.root;
     }
 
