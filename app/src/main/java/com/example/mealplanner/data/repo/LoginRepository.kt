@@ -5,9 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.mealplanner.data.LoginDataSource
 import com.example.mealplanner.data.MealPlannerApi
-import com.example.mealplanner.data.model.LoginBody
-import com.example.mealplanner.data.model.LoginResponse
-import com.example.mealplanner.data.model.User
+import com.example.mealplanner.data.model.*
 import com.example.mealplanner.data.state.UserState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,30 +19,34 @@ import java.security.InvalidKeyException
  * maintains an in-memory cache of login status and user credentials information.
  */
 
-class LoginRepository(private val dataSource: LoginDataSource){
+object LoginRepository{
 
-    private var viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main )
+    /*private var viewModelJob = Job()
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main ) */
     private val userState = UserState
+    private val users : List<User> = listOf(
+        User(id=1, email = "mail@mail.com", firstName = "John", lastName = "Doe", households = arrayOf(), url=Link(full="", route = ""))
+    );
 
     fun logout() {
         userState.loggedInUser = null
         userState.token=""
-        dataSource.logout()
+        //dataSource.logout()
     }
 
     fun authenticated():Boolean{
-        val token:String
+        /*val token:String
         try{
             token = dataSource.retrieveToken()
             userState.token = token
         } catch (e: InvalidKeyException){
             return false
-        }
+        }*/
         return true
     }
 
     fun updateUserFromToken(){
+        /*
         val id = dataSource.getUserIdFromToken(userState.token)
         Log.d("TEST", "Found user with id: " + id)
         coroutineScope.launch {
@@ -60,10 +62,19 @@ class LoginRepository(private val dataSource: LoginDataSource){
             } catch (e:Exception){
 
             }
-        }
+        } */
     }
 
     fun login(email: String, password: String) {
+        var user = users.find {
+            it.email == email
+        }
+        if(user != null){
+            userState.loggedInUser = user
+            userState.token = email
+        }
+        Log.i("LoginRepository", "User: " + user?.firstName)
+        /*
         coroutineScope.launch {
             var user:User? = null
             var token:String = ""
@@ -81,7 +92,11 @@ class LoginRepository(private val dataSource: LoginDataSource){
             } catch(e:Exception){
                 Log.d("TEST", ">>>> something went horribly wrong")
             }
-        }
+        }*/
+    }
+
+    fun getUser() : User?{
+        return userState.loggedInUser
     }
 
     private fun setLoggedInUser(user: User, token: String) {

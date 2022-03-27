@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanner.R
+import com.example.mealplanner.data.repo.LoginRepository
 import com.example.mealplanner.databinding.FragmentFirstBinding
 
 
@@ -20,6 +21,7 @@ class FirstFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val repo = LoginRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +29,7 @@ class FirstFragment : Fragment() {
     ): View? {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        binding.textviewFirst.text = repo.getUser()?.firstName
         return binding.root
 
     }
