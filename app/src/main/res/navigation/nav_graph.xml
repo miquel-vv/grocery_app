@@ -17,9 +17,8 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.example.mealplanner.ui.main.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:name="com.example.mealplanner.ui.main.BrowseHouseholdsFragment"
+        android:label="@string/households_fragment_title">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
