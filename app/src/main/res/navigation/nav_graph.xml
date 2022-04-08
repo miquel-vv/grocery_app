@@ -12,16 +12,16 @@
         tools:layout="@layout/main_menu">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_MainMenu_to_BrowseHousholds"
+            app:destination="@id/BrowseHouseholds" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/BrowseHouseholds"
         android:name="com.example.mealplanner.ui.main.BrowseHouseholdsFragment"
         android:label="@string/households_fragment_title">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            android:id="@+id/action_BrowseHouseholds_to_MainMenu"
             app:destination="@id/MainMenu" />
     </fragment>
 </navigation>
