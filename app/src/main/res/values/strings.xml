@@ -20,6 +20,10 @@
     <string name="date_hint">yyyy-mm-dd hh:mm</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="household_card">manage households</string>
+    <string name="meal_card">browse meals</string>
+    <string name="recipe_card">browse recipes</string>
+    <string name="grocery_card">grocery list</string>
     <!-- Strings used for fragments for navigation -->
     <string name="main_menu">Main Menu</string>
     <string name="second_fragment_label">Second Fragment</string>
