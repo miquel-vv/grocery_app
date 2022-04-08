@@ -19,8 +19,6 @@ class MainMenu : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        activity?.title = "Main"
-        Log.w("fragment", "Title should be Main now...")
         _binding = MainMenuBinding.inflate(inflater, container, false)
         return binding.root
     }
