@@ -39,9 +39,8 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/household_96"
-                    app:tint="@color/black" />
+                    android:layout_height="100dp"
+                    android:src="@mipmap/home" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -74,9 +73,8 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/meals_96"
-                    app:tint="@color/black"/>
+                    android:layout_height="100dp"
+                    android:src="@mipmap/pizza_f_06" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -109,9 +107,8 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/recipes_96"
-                    app:tint="@color/black"/>
+                    android:layout_height="100dp"
+                    android:src="@mipmap/scrollsandbooks_65_t" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -144,9 +141,8 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/grocery_list_96"
-                    app:tint="@color/black"/>
+                    android:layout_height="100dp"
+                    android:src="@mipmap/scrollsandbooks_102_t" />
 
                 <TextView
                     android:layout_width="wrap_content"
