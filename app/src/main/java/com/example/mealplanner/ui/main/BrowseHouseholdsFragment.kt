@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanner.R
+import com.example.mealplanner.data.model.Household
+import com.example.mealplanner.data.model.Link
+import com.example.mealplanner.data.model.Member
 import com.example.mealplanner.databinding.FragmentBrowseHouseholdsBinding
 
 
@@ -20,6 +23,11 @@ class BrowseHouseholdsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentBrowseHouseholdsBinding.inflate(inflater, container, false)
+
+        val householdData = listOf(Household(name = "household1"),Household(name = "household2"),Household(name = "household3"))
+        val adapter = HouseholdAdapter()
+        binding.households.adapter = adapter
+        adapter.data = householdData
         return binding.root
     }
 

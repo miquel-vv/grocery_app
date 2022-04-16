@@ -12,7 +12,7 @@ data class MemberLink(val isOwner: Boolean, val user:Link)
 data class Member(val isOwner: Boolean, val user:User)
 
 data class User(
-    val id:Number,
+    val id:Number = Int.MIN_VALUE,
     val firstName:String,
     val lastName:String,
     val email:String,
@@ -36,11 +36,11 @@ data class User(
 }
 
 data class Household(
-    val id:Number,
-    val url:Link,
+    val id:Number = Int.MIN_VALUE,
+    val url:Link = Link("s", "s"),
     val name:String,
-    val members:Array<MemberLink>,
-    val schedules:Array<Link>
+    val members:Array<MemberLink> = arrayOf(),
+    val schedules:Array<Link> = arrayOf()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
