@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanner.R
 import com.example.mealplanner.data.model.Household
-import com.example.mealplanner.data.model.Link
-import com.example.mealplanner.data.model.Member
 import com.example.mealplanner.databinding.FragmentBrowseHouseholdsBinding
 
 
