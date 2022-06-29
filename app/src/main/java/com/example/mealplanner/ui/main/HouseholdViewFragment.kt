@@ -30,9 +30,7 @@ class HouseholdViewFragment : Fragment() {
         viewModelFactory = HouseholdViewModelFactory(requireArguments().getInt("householdPosition"))
         viewModel = ViewModelProvider(this, viewModelFactory).get(HouseholdViewModel::class.java)
 
-        viewModel.household.observe(viewLifecycleOwner, Observer { household ->
-            binding.householdName.setText(household.name)
-        })
+        binding.householdViewModel = viewModel
 
         val adapter = MemberAdapter()
         binding.members.adapter = adapter
