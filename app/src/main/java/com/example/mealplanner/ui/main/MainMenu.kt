@@ -25,31 +25,6 @@ class MainMenu : Fragment() {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.i("MainMenu", "On start called")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.i("MainMenu", "On Stop called")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i("MainMenu", "On pause called")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i("MainMenu", "On destroy called")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i("MainMenu", "On resume called")
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

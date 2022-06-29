@@ -16,8 +16,8 @@ data class User(
     val firstName:String,
     val lastName:String,
     val email:String,
-    val households:Array<MembershipLink>,
-    val url:Link,
+    val households:Array<MembershipLink> = arrayOf(),
+    val url:Link = Link("s", "s"),
     ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

@@ -23,5 +23,17 @@
         <action
             android:id="@+id/action_BrowseHouseholds_to_MainMenu"
             app:destination="@id/MainMenu" />
+        <action
+            android:id="@+id/action_BrowseHouseholds_to_householdView"
+            app:destination="@id/householdView" >
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/householdView"
+        android:name="com.example.mealplanner.ui.main.HouseholdViewFragment"
+        android:label="HouseholdView" >
+        <argument
+            android:name="householdPosition"
+            app:argType="integer" />
     </fragment>
 </navigation>
