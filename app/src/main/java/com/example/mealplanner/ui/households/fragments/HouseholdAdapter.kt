@@ -1,4 +1,4 @@
-package com.example.mealplanner.ui.main
+package com.example.mealplanner.ui.households.fragments
 
 import android.view.LayoutInflater
 import android.view.View

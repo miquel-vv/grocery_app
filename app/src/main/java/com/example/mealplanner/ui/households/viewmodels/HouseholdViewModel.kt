@@ -1,4 +1,4 @@
-package com.example.mealplanner.ui.main
+package com.example.mealplanner.ui.households.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.LiveData

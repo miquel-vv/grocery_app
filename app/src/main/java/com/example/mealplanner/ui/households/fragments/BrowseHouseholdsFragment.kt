@@ -1,4 +1,4 @@
-package com.example.mealplanner.ui.main
+package com.example.mealplanner.ui.households.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanner.databinding.FragmentBrowseHouseholdsBinding
+import com.example.mealplanner.ui.households.viewmodels.BrowseHouseholdsViewModel
+import com.example.mealplanner.ui.households.viewmodels.BrowseHouseholdsViewModelFactory
 
 
 class BrowseHouseholdsFragment : Fragment(), HouseholdAdapter.OnHouseholdListener {
@@ -16,7 +18,7 @@ class BrowseHouseholdsFragment : Fragment(), HouseholdAdapter.OnHouseholdListene
     private val binding get() = _binding!!
 
     private lateinit var viewModelFactory: BrowseHouseholdsViewModelFactory
-    private lateinit var viewModel:BrowseHouseholdsViewModel
+    private lateinit var viewModel: BrowseHouseholdsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +42,9 @@ class BrowseHouseholdsFragment : Fragment(), HouseholdAdapter.OnHouseholdListene
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(BrowseHouseholdsFragmentDirections.actionBrowseHouseholdsToMainMenu())
+            findNavController().navigate(
+                BrowseHouseholdsFragmentDirections.actionBrowseHouseholdsToMainMenu()
+            )
         }
     }
 
@@ -50,6 +54,8 @@ class BrowseHouseholdsFragment : Fragment(), HouseholdAdapter.OnHouseholdListene
     }
 
     override fun onHouseholdClick(position: Int) {
-        findNavController().navigate(BrowseHouseholdsFragmentDirections.actionBrowseHouseholdsToHouseholdView(position))
+        findNavController().navigate(
+            BrowseHouseholdsFragmentDirections.actionBrowseHouseholdsToHouseholdView(position)
+        )
     }
 }

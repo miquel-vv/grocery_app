@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/BrowseHouseholds"
-        android:name="com.example.mealplanner.ui.main.BrowseHouseholdsFragment"
+        android:name="com.example.mealplanner.ui.households.fragments.BrowseHouseholdsFragment"
         android:label="@string/households_fragment_title">
 
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/householdView"
-        android:name="com.example.mealplanner.ui.main.HouseholdViewFragment"
+        android:name="com.example.mealplanner.ui.households.fragments.HouseholdViewFragment"
         android:label="HouseholdView" >
         <argument
             android:name="householdPosition"

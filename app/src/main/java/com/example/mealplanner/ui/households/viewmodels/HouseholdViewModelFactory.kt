@@ -1,8 +1,7 @@
-package com.example.mealplanner.ui.main
+package com.example.mealplanner.ui.households.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.mealplanner.data.model.Household
 import java.lang.IllegalArgumentException
 
 class HouseholdViewModelFactory(private val household:Int) : ViewModelProvider.Factory{

@@ -7,7 +7,7 @@
     <data>
         <variable
             name="householdViewModel"
-            type="com.example.mealplanner.ui.main.HouseholdViewModel" />
+            type="com.example.mealplanner.ui.households.viewmodels.HouseholdViewModel" />
     </data>
     
     <androidx.constraintlayout.widget.ConstraintLayout
