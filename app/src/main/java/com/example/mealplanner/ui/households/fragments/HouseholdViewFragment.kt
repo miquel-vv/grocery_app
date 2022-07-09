@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.mealplanner.databinding.FragmentHouseholdViewBinding
 import com.example.mealplanner.ui.households.viewmodels.HouseholdViewModel
 import com.example.mealplanner.ui.households.viewmodels.HouseholdViewModelFactory
@@ -26,19 +27,58 @@ class HouseholdViewFragment : Fragment() {
     ): View? {
         _binding = FragmentHouseholdViewBinding.inflate(inflater, container, false)
 
+        attachViewModel()
+        setUpMembersRecyclerView()
+        setButtonActions()
+
+
+        return binding.root
+    }
+
+    private fun attachViewModel(){
         viewModelFactory = HouseholdViewModelFactory(requireArguments().getInt("householdPosition"))
         viewModel = ViewModelProvider(this, viewModelFactory).get(HouseholdViewModel::class.java)
 
         binding.householdViewModel = viewModel
+    }
 
+    private fun setUpMembersRecyclerView(){
         val adapter = MemberAdapter()
         binding.members.adapter = adapter
         viewModel.members.observe(viewLifecycleOwner, Observer { members ->
             adapter.data = members
             adapter.notifyDataSetChanged()
         })
+    }
 
-        return binding.root
+    private fun setButtonActions(){
+        setAddUserAction()
+        setCancelButtonAction()
+        setSaveButtonAction()
+    }
+
+    private fun setAddUserAction(){
+        binding.addUser.setOnClickListener {
+            findNavController().navigate(
+                HouseholdViewFragmentDirections.actionHouseholdViewToAddUserFragment()
+            )
+        }
+    }
+
+    private fun setCancelButtonAction(){
+        binding.cancelButton.setOnClickListener {
+            findNavController().navigate(
+                HouseholdViewFragmentDirections.actionHouseholdViewToBrowseHouseholds()
+            )
+        }
+    }
+
+    private fun setSaveButtonAction(){
+        binding.saveButton.setOnClickListener {
+            findNavController().navigate(
+                HouseholdViewFragmentDirections.actionHouseholdViewToBrowseHouseholds()
+            )
+        }
     }
 
     override fun onDestroyView() {
