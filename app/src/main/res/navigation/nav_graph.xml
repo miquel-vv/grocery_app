@@ -45,5 +45,12 @@
     <fragment
         android:id="@+id/addUserFragment"
         android:name="com.example.mealplanner.ui.users.fragments.AddUserFragment"
-        android:label="AddUserFragment" />
+        android:label="AddUserFragment" >
+        <action
+            android:id="@+id/action_addUserFragment_to_householdView"
+            app:destination="@id/householdView" />
+        <argument
+            android:name="householdPosition"
+            app:argType="integer" />
+    </fragment>
 </navigation>

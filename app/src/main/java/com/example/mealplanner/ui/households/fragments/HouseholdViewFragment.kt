@@ -60,7 +60,7 @@ class HouseholdViewFragment : Fragment() {
     private fun setAddUserAction(){
         binding.addUser.setOnClickListener {
             findNavController().navigate(
-                HouseholdViewFragmentDirections.actionHouseholdViewToAddUserFragment()
+                HouseholdViewFragmentDirections.actionHouseholdViewToAddUserFragment(requireArguments().getInt("householdPosition"))
             )
         }
     }
