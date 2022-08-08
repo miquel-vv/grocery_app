@@ -26,6 +26,13 @@ class HouseholdViewModel(householdPosition:Int) : ViewModel(){
         _members.value = getMembers(h)
     }
 
+    fun deleteMember(position: Int){
+        val newList = _members.value!!.filterIndexed { index, member ->
+            index != position
+        }
+        _members.value = newList
+    }
+
     private fun getHousehold(position:Int): Household {
         val households = listOf(
             Household(name = "household1"),

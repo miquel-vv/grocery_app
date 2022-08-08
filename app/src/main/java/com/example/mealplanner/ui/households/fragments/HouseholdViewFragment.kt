@@ -1,6 +1,7 @@
 package com.example.mealplanner.ui.households.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,7 @@ import com.example.mealplanner.ui.households.viewmodels.HouseholdViewModel
 import com.example.mealplanner.ui.households.viewmodels.HouseholdViewModelFactory
 
 
-class HouseholdViewFragment : Fragment() {
+class HouseholdViewFragment : Fragment(), MemberAdapter.onMemberDeleteListener{
 
     private lateinit var viewModel: HouseholdViewModel
     private lateinit var viewModelFactory: HouseholdViewModelFactory
@@ -43,7 +44,7 @@ class HouseholdViewFragment : Fragment() {
     }
 
     private fun setUpMembersRecyclerView(){
-        val adapter = MemberAdapter()
+        val adapter = MemberAdapter(this)
         binding.members.adapter = adapter
         viewModel.members.observe(viewLifecycleOwner, Observer { members ->
             adapter.data = members
@@ -84,5 +85,10 @@ class HouseholdViewFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun deleteMember(position: Int) {
+        Log.d("HouseholdView", String.format("deleteMember: %s", position))
+        viewModel.deleteMember(position)
     }
 }
