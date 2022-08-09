@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.mealplanner.ui.landing.LoginFragment"
+        android:name="com.example.mealplanner.ui.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
     <fragment

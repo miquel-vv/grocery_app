@@ -1,35 +1,67 @@
 package com.example.mealplanner.data
 
-import com.example.mealplanner.data.model.LoggedInUser
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.mealplanner.data.model.LoginBody
+import com.example.mealplanner.data.model.LoginResponse
+import com.example.mealplanner.data.model.User
+import com.example.mealplanner.ui.login.LoginStatus
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-/**
- * Class that requests authentication and user information from the remote data source and
- * maintains an in-memory cache of login status and user credentials information.
- */
 
-class LoginRepository(val dataSource: LoginDataSource) {
+object LoginRepository {
 
-    // in-memory cache of the loggedInUser object
-    var user: LoggedInUser? = null
-        private set
+    private var dataSource:LoginDataSource? = null
 
-    val isLoggedIn: Boolean
-        get() = user != null
+    private var user:User? = null
 
-    init {
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
-        user = null
+    private val _loginStatus = MutableLiveData(LoginStatus.NOT_STARTED)
+    val loginStatus : LiveData<LoginStatus>
+        get() = _loginStatus
+
+    fun init(dataSource: LoginDataSource){
+        this.dataSource = dataSource
+    }
+
+    fun login(email:String, password:String){
+        _loginStatus.value = LoginStatus.LOADING
+        var user:User?
+        var token = ""
+        val body = LoginBody(email, password)
+
+        MealPlannerApi.loginService.login(body).enqueue(object : Callback<LoginResponse>{
+                override fun onResponse(
+                    call: Call<LoginResponse>,
+                    res: Response<LoginResponse>
+                ) {
+                    if(res.isSuccessful){
+                        user = res.body()?.content?.user!!
+                        token = res.body()?.content?.token!!
+                        setLoggedInUser(user!!, token)
+                        Log.d("LOGIN_REPO", ">>>> Found user: $user")
+                    }
+                }
+
+                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                    Log.d("LOGIN_REPO", "Error fetching from remote.")
+                    _loginStatus.value = LoginStatus.FAILED
+                }
+            }
+        )
+    }
+
+    private fun setLoggedInUser(user: User, token: String){
+        this.user = user
+        dataSource!!.storeToken(token)
+        this._loginStatus.value = LoginStatus.SUCCESS
     }
 
     fun logout() {
         user = null
-        dataSource.logout()
-    }
-
-    private fun setLoggedInUser(loggedInUser: LoggedInUser) {
-        this.user = loggedInUser
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
+        this._loginStatus.value = LoginStatus.NOT_STARTED
+        dataSource!!.logout()
     }
 }

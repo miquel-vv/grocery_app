@@ -12,6 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MealPlanner">
         <activity
+            android:name=".ui.login.ExampleLoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_example_login" />
+        <activity
             android:name=".ui.main.MainActivity"
             android:exported="false"
             android:label="@string/title_activity_main"

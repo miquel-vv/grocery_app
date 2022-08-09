@@ -1,20 +1,17 @@
 package com.example.mealplanner.data
 
-import android.content.Context
 import org.json.JSONException
 import com.auth0.jwt.JWT
 import android.content.SharedPreferences
 import android.util.Log
-import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import java.nio.charset.Charset
 import java.security.InvalidKeyException
 import java.util.*
 
-class LoginDataSource(private val context: Context) {
+class LoginDataSource(private val prefs: SharedPreferences) {
 
     fun retrieveToken():String{
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val token = prefs.getString("token", "")
         if(token == null || token==""){
             throw InvalidKeyException()
@@ -37,7 +34,6 @@ class LoginDataSource(private val context: Context) {
     }
 
     fun storeToken(token:String){
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val edit: SharedPreferences.Editor = prefs.edit()
         try {
             edit.putString("token", token)
@@ -48,8 +44,11 @@ class LoginDataSource(private val context: Context) {
         }
     }
 
+    fun login(email:String, password:String){
+
+    }
+
     fun logout() {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val edit: SharedPreferences.Editor = prefs.edit()
         try {
             edit.putString("token", "")

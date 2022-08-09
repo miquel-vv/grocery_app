@@ -38,4 +38,5 @@
     <string name="search">Search</string>
     <string name="by_email">By Email</string>
     <string name="by_username">By Username</string>
+    <string name="title_activity_example_login">ExampleLoginActivity</string>
 </resources>

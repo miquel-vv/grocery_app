@@ -1,15 +1,19 @@
-package com.example.mealplanner.ui.landing
+package com.example.mealplanner.ui.login
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.mealplanner.data.LoginDataSource
-import com.example.mealplanner.data.repo.LoginRepository
+import com.example.mealplanner.data.LoginRepository
+import com.example.mealplanner.ui.login.LoginStatus
 
 class LoginViewModel: ViewModel(){
 
     private var email:String = ""
     private var password:String = ""
-    private val repo:LoginRepository = LoginRepository
+    private val repo = LoginRepository
+
+    val loginStatus : LiveData<LoginStatus>
+        get() = repo.loginStatus
 
     init {
         Log.i("LoginViewModel", "LoginViewModel created")

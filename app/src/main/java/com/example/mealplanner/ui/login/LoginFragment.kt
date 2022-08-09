@@ -1,5 +1,6 @@
-package com.example.mealplanner.ui.landing
+package com.example.mealplanner.ui.login
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -9,32 +10,48 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.mealplanner.R
 import com.example.mealplanner.databinding.FragmentLoginBinding
 import com.example.mealplanner.ui.main.MainActivity
 
 class LoginFragment : Fragment() {
 
-    private lateinit var viewModel:LoginViewModel
+    private lateinit var viewModelFactory: LoginViewModelFactory
+    private lateinit var viewModel: LoginViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val binding : FragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false);
 
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        viewModelFactory = LoginViewModelFactory(requireActivity().getSharedPreferences("token_data", Context.MODE_PRIVATE))
+        viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
+
         setActions(binding)
+        createObservation()
+
         return binding.root;
+    }
+
+    private fun createObservation() {
+        val observer = Observer<LoginStatus> { status ->
+            if(status == LoginStatus.SUCCESS) {
+                val intent = Intent(this.activity, MainActivity::class.java)
+                startActivity(intent)
+            } else if(status == LoginStatus.LOADING) {
+                Log.d("LOGIN_FRAGMENT", "Logging in...")
+            } else if(status == LoginStatus.FAILED) {
+                Log.d("LOGIN_FRAGMENT", "Failed logging in...")
+            }
+        }
+        viewModel.loginStatus.observe(viewLifecycleOwner, observer)
     }
 
     private fun setActions(binding: FragmentLoginBinding){
         binding.login.setOnClickListener {
             viewModel.loginUser()
-            val intent = Intent(this.activity, MainActivity::class.java)
-            startActivity(intent)
         }
 
         binding.username.addTextChangedListener(object : TextWatcher{
