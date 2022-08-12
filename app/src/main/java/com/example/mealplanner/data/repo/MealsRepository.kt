@@ -29,9 +29,8 @@ object MealsRepository : Observer{
 
     override fun update() {
         Log.d("MEAL_REPO", "Updating meals..")
-        getMeals()
     }
-
+    /*
     private fun getMeals(){
         coroutineScope.launch {
             val meals = mutableListOf<Meal>()
@@ -58,5 +57,5 @@ object MealsRepository : Observer{
             (dateFilter.startDateTime==null || meal.date >= dateFilter.startDateTime)
                     && (dateFilter.endDateTime == null || meal.date <= dateFilter.endDateTime)
         }
-    }
+    }*/
 }

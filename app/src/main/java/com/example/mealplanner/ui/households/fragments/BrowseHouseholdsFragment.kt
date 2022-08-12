@@ -28,6 +28,7 @@ class BrowseHouseholdsFragment : Fragment(), HouseholdAdapter.OnHouseholdListene
 
         viewModelFactory = BrowseHouseholdsViewModelFactory()
         viewModel = ViewModelProvider(this, viewModelFactory).get(BrowseHouseholdsViewModel::class.java)
+        viewModel.load()
 
         val adapter = HouseholdAdapter(this)
         binding.households.adapter = adapter

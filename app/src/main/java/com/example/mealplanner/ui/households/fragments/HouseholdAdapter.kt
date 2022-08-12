@@ -7,10 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mealplanner.R
 import com.example.mealplanner.data.model.Household
+import com.example.mealplanner.data.model.Membership
 
 
 class HouseholdAdapter(private val onHouseholdListener: OnHouseholdListener) : RecyclerView.Adapter<HouseholdAdapter.ViewHolder>() {
-    var data = listOf<Household>()
+    var data = listOf<Membership>()
         set(value){
             field = value
             notifyDataSetChanged()
@@ -20,7 +21,7 @@ class HouseholdAdapter(private val onHouseholdListener: OnHouseholdListener) : R
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
-        holder.name.text = item.name
+        holder.name.text = item.household.name
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

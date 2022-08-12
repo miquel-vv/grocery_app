@@ -10,6 +10,7 @@ import com.example.mealplanner.ui.login.LoginStatus
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 
 
 object LoginRepository {
@@ -17,6 +18,7 @@ object LoginRepository {
     private var dataSource:LoginDataSource? = null
 
     private var user:User? = null
+    private var token:String = ""
 
     private val _loginStatus = MutableLiveData(LoginStatus.NOT_STARTED)
     val loginStatus : LiveData<LoginStatus>
@@ -55,13 +57,31 @@ object LoginRepository {
 
     private fun setLoggedInUser(user: User, token: String){
         this.user = user
+        this.token = token
         dataSource!!.storeToken(token)
         this._loginStatus.value = LoginStatus.SUCCESS
     }
 
     fun logout() {
         user = null
+        token = ""
         this._loginStatus.value = LoginStatus.NOT_STARTED
         dataSource!!.logout()
+    }
+
+    fun getUserId():Number {
+        if(this._loginStatus.value != LoginStatus.SUCCESS && this.user != null){
+            throw Exception("No user logged in.")
+        }
+
+        return this.user!!.id
+    }
+
+    fun getAuthToken():String {
+        if(this._loginStatus.value != LoginStatus.SUCCESS && this.token != ""){
+            throw Exception("No user logged in.")
+        }
+        Log.d("LOGIN_REPO", "Returning token: $token")
+        return "Bearer ${this.token}"
     }
 }

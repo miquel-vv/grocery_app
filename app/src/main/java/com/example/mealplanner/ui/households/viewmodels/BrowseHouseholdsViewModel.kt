@@ -6,19 +6,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mealplanner.data.HouseholdRepository
 import com.example.mealplanner.data.model.Household
+import com.example.mealplanner.data.model.Membership
 
 private const val TAG = "BrowseHouseholdsViewModel"
 
 class BrowseHouseholdsViewModel : ViewModel() {
 
-    private val _households = MutableLiveData<List<Household>>()
-    val households : LiveData<List<Household>>
-        get() = _households
+    private val repo = HouseholdRepository
 
-    private val householdsRepo = HouseholdRepository
+    val households : LiveData<List<Membership>>
+        get() = repo.households
 
-    init{
-        _households.value = HouseholdRepository.getHouseholds()
+    fun load(){
+        repo.fetchHouseholds()
     }
 
     override fun onCleared() {

@@ -28,9 +28,8 @@ object SchedulesRepository : Observer{
 
     override fun update(){
         Log.d("SCHEDULE_REPO", "Updating the schedules..")
-        getSchedules()
     }
-
+    /*
     fun getSchedules(){
         coroutineScope.launch {
             val schedules = mutableListOf<Schedule>()
@@ -58,5 +57,5 @@ object SchedulesRepository : Observer{
         } else {
             throw Exception("Response returned with code: " + response.code().toString())
         }
-    }
+    } */
 }

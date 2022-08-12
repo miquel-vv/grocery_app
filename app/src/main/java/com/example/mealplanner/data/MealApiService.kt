@@ -27,18 +27,18 @@ interface LoginApiService {
 
 interface HouseholdApiService {
     @GET("users/{id}/households")
-    suspend fun getHouseholds(@Path("id") userId:Number, @Header("Authorization") authorization:String):
-            Response<HouseholdsResponse>
+    fun getHouseholds(@Path("id") userId:Number, @Header("Authorization") authorization:String):
+            Call<HouseholdsResponse>
 
     @GET("households/{id}/schedules")
-    suspend fun getSchedules(@Path("id") householdId: Number, @Header("Authorization") authorization:String):
-            Response<SchedulesResponse>
+    fun getSchedules(@Path("id") householdId: Number, @Header("Authorization") authorization:String):
+            Call<SchedulesResponse>
 }
 
 interface ScheduleApiService {
     @GET("schedules/{id}/meals")
-    suspend fun getMeals(@Path("id") scheduleId:Number, @Header("Authorization") authorization:String):
-            Response<MealsResponse>
+    fun getMeals(@Path("id") scheduleId:Number, @Header("Authorization") authorization:String):
+            Call<MealsResponse>
 }
 
 object MealPlannerApi {
