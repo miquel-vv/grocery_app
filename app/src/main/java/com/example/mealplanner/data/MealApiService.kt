@@ -41,6 +41,10 @@ interface HouseholdApiService {
     @PUT("households/{householdId}/addMember/{userId}")
     fun addMember(@Path("householdId") householdId: Number, @Path("userId") userId: Int, @Header("Authorization") authorization:String):
             Call<MemberResponse>
+
+    @PUT("households/{householdId}/removeMember/{userId}")
+    fun removeMember(@Path("householdId") householdId: Number, @Path("userId") userId: Number, @Header("Authorization") authorization:String):
+            Call<MemberResponse>
 }
 
 interface UsersApiService {

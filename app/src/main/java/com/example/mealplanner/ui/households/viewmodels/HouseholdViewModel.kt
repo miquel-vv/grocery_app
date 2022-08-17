@@ -31,10 +31,7 @@ class HouseholdViewModel(householdPosition:Int) : ViewModel(){
     }
 
     fun deleteMember(position: Int){
-        val newList = members.value!!.filterIndexed { index, member ->
-            index != position
-        }
-        //members.value = newList
+        membersRepo.removeMember(membersRepo.members.value?.get(position)!!.user.id)
     }
 
     private fun getHousehold(position:Int): Household {

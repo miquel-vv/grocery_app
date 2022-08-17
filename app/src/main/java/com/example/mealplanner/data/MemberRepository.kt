@@ -8,6 +8,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+private const val TAG = "MEMBER_REPO"
+
 class MemberRepository(val household: Household) {
 
     private val _members = MutableLiveData<List<Member>>(listOf())
@@ -27,15 +29,35 @@ class MemberRepository(val household: Household) {
                     call: Call<MembersResponse>,
                     res: Response<MembersResponse>
                 ) {
-                    Log.d("HOUSEHOLD_REPO", "Got here")
                     if(res.isSuccessful){
                         _members.value = res.body()!!.content
                     } else {
-                        Log.d("HOUSEHOLD_REPO", "response: $res")
+                        Log.d(TAG, "response: $res")
                     }
                 }
 
                 override fun onFailure(call: Call<MembersResponse>, t: Throwable) {
+                    throw t
+                }
+            })
+    }
+
+    fun removeMember(userId:Number) {
+        MealPlannerApi.householdService.removeMember(household.id, userId, loginRepo.getAuthToken())
+            .enqueue(object: Callback<MemberResponse>{
+                override fun onResponse(
+                    call: Call<MemberResponse>,
+                    res: Response<MemberResponse>
+                ) {
+                    if(res.isSuccessful){
+                        val newMembers = _members.value!!.filter{m -> m.user.id != userId}
+                        _members.value = newMembers
+                    } else {
+                        Log.d(TAG, "response: $res")
+                    }
+                }
+
+                override fun onFailure(call: Call<MemberResponse>, t: Throwable) {
                     throw t
                 }
             })
