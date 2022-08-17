@@ -1,36 +1,43 @@
 package com.example.mealplanner.data
 
-import com.example.mealplanner.data.model.Household
-import com.example.mealplanner.data.model.MemberLink
-import com.example.mealplanner.data.model.User
-import com.example.mealplanner.data.model.Member
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.mealplanner.data.model.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-object MemberRepository {
+class MemberRepository(val household: Household) {
 
-    private val members = HashMap<Household, List<Member>>()
-    private val memberMapper = HashMap<String, Member>()
+    private val _members = MutableLiveData<List<Member>>(listOf())
+    val members:LiveData<List<Member>>
+        get() = _members
 
-    fun getMembers(household: Household):List<Member>{
-        val members = mutableListOf<Member>()
-        household.members.forEach {memberLink ->
-            members.add(getMember(memberLink))
-        }
+    private val loginRepo = LoginRepository
 
-        return members
+    init {
+        fetchMembers()
     }
 
-    private fun getMember(memberLink: MemberLink):Member{
-        val users = listOf(
-            User(firstName = "John", lastName = "Doe", email = "john.doe@mail.com"),
-            User(firstName = "Samantha", lastName = "Smith", email = "s.smith@mail.com"),
-            User(firstName = "Sofie", lastName = "Onderbeke", email = "sofie.onderbeke@mail.com"),
-        )
-        val members = listOf(
-            Member(isOwner = true, user = users[0]),
-            Member(isOwner = false, user = users[1]),
-            Member(isOwner = false, user = users[2])
-        )
-        val mapper = mapOf("jon" to members[0], "sofie" to members[2], "samantha" to members[1])
-        return mapper.getValue(memberLink.user.full)
+    fun fetchMembers() {
+        MealPlannerApi.householdService.getMembers(household.id, loginRepo.getAuthToken())
+            .enqueue(object: Callback<MembersResponse> {
+                override fun onResponse(
+                    call: Call<MembersResponse>,
+                    res: Response<MembersResponse>
+                ) {
+                    Log.d("HOUSEHOLD_REPO", "Got here")
+                    if(res.isSuccessful){
+                        _members.value = res.body()!!.content
+                    } else {
+                        Log.d("HOUSEHOLD_REPO", "response: $res")
+                    }
+                }
+
+                override fun onFailure(call: Call<MembersResponse>, t: Throwable) {
+                    throw t
+                }
+            })
     }
 }

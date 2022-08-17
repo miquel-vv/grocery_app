@@ -32,7 +32,6 @@ class HouseholdViewFragment : Fragment(), MemberAdapter.onMemberDeleteListener{
         setUpMembersRecyclerView()
         setButtonActions()
 
-
         return binding.root
     }
 

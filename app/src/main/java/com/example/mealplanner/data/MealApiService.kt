@@ -33,6 +33,10 @@ interface HouseholdApiService {
     @GET("households/{id}/schedules")
     fun getSchedules(@Path("id") householdId: Number, @Header("Authorization") authorization:String):
             Call<SchedulesResponse>
+
+    @GET("households/{id}/members")
+    fun getMembers(@Path("id") householdId: Number, @Header("Authorization") authorization:String):
+            Call<MembersResponse>
 }
 
 interface ScheduleApiService {

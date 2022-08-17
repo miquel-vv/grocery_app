@@ -7,6 +7,7 @@ data class UserResponse(val token: String, val content:User, val succeeded: Bool
 data class HouseholdsResponse(val token:String, val content:List<Membership>, val succeeded: Boolean)
 data class HouseholdResponse(val token: String, val content:Household, val succeeded: Boolean)
 data class SchedulesResponse(val token: String, val content:List<Schedule>, val succeeded: Boolean)
+data class MembersResponse(val token: String, val content:List<Member>, val succeeded: Boolean)
 data class MealsResponse(val token:String, val content:List<Meal>, val succeeded: Boolean)
 
 

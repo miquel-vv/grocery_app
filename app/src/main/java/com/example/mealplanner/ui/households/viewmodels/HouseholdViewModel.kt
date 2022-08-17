@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.mealplanner.data.HouseholdRepository
+import com.example.mealplanner.data.MemberRepository
 import com.example.mealplanner.data.model.Household
 import com.example.mealplanner.data.model.Member
 import com.example.mealplanner.data.model.User
@@ -16,43 +18,28 @@ class HouseholdViewModel(householdPosition:Int) : ViewModel(){
     val household: LiveData<Household>
         get() = _household
 
-    private val _members = MutableLiveData<List<Member>>()
     val members: LiveData<List<Member>>
-        get() = _members
+        get() = membersRepo.members
+
+    private val householdRepo = HouseholdRepository
+    private var membersRepo:MemberRepository
 
     init {
         val h = getHousehold(householdPosition)
         _household.value = h
-        _members.value = getMembers(h)
+        membersRepo = MemberRepository(h)
     }
 
     fun deleteMember(position: Int){
-        val newList = _members.value!!.filterIndexed { index, member ->
+        val newList = members.value!!.filterIndexed { index, member ->
             index != position
         }
-        _members.value = newList
+        //members.value = newList
     }
 
     private fun getHousehold(position:Int): Household {
-        val households = listOf(
-            Household(name = "household1"),
-            Household(name = "household2"),
-            Household(name = "household3")
-        )
+        val households = householdRepo.households.value!!
 
-        return households[position]
-    }
-
-    private fun getMembers(household: Household):List<Member>{
-        val users = listOf(
-            User(firstName = "John", lastName = "Doe", email = "john.doe@mail.com"),
-            User(firstName = "Samantha", lastName = "Smith", email = "s.smith@mail.com"),
-            User(firstName = "Sofie", lastName = "Onderbeke", email = "sofie.onderbeke@mail.com"),
-        )
-        return listOf(
-            Member(isOwner = true, user=users[0]),
-            Member(isOwner = false, user=users[1]),
-            Member(isOwner = false, user=users[2])
-        )
+        return households[position].household
     }
 }
