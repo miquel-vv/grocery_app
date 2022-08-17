@@ -5,12 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanner.data.LoadingStatus
 import com.example.mealplanner.databinding.FragmentAddUserBinding
+import com.example.mealplanner.ui.households.fragments.HouseholdViewFragment
 import com.example.mealplanner.ui.users.viewmodels.AddUserViewModel
 import com.example.mealplanner.ui.users.viewmodels.AddUserViewModelFactory
 
@@ -75,6 +77,15 @@ class AddUserFragment : Fragment(), UserAdapter.OnUserListener {
     }
 
     private fun navigateBackToHousehold() {
+        val bundle = bundleOf("householdPosition" to viewModel.position)
+
+        /*val fragmentTransaction = parentFragmentManager.beginTransaction()
+        val householdView = HouseholdViewFragment()
+        householdView.arguments = bundle
+        fragmentTransaction.add(householdView, "Test")
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()*/
+
         findNavController().navigate(
             AddUserFragmentDirections.actionAddUserFragmentToHouseholdView(viewModel.position)
         )

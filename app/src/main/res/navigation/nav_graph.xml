@@ -48,7 +48,8 @@
         android:label="AddUserFragment" >
         <action
             android:id="@+id/action_addUserFragment_to_householdView"
-            app:destination="@id/householdView" />
+            app:destination="@id/householdView"
+            app:popUpTo="@id/BrowseHouseholds" />
         <argument
             android:name="householdPosition"
             app:argType="integer" />
