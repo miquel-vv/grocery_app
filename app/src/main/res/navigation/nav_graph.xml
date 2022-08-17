@@ -27,6 +27,9 @@
             android:id="@+id/action_BrowseHouseholds_to_householdView"
             app:destination="@id/householdView" >
         </action>
+        <action
+            android:id="@+id/action_BrowseHouseholds_to_createHouseholdFragment"
+            app:destination="@id/createHouseholdFragment" />
     </fragment>
     <fragment
         android:id="@+id/householdView"
@@ -53,5 +56,14 @@
         <argument
             android:name="householdPosition"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/createHouseholdFragment"
+        android:name="com.example.mealplanner.ui.households.fragments.CreateHouseholdFragment"
+        android:label="CreateHouseholdFragment" >
+        <action
+            android:id="@+id/action_createHouseholdFragment_to_BrowseHouseholds"
+            app:destination="@id/BrowseHouseholds"
+            app:popUpTo="@id/MainMenu" />
     </fragment>
 </navigation>

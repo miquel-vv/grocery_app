@@ -42,9 +42,9 @@ class BrowseHouseholdsFragment : Fragment(), HouseholdAdapter.OnHouseholdListene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonSecond.setOnClickListener {
+        binding.createHousehold.setOnClickListener {
             findNavController().navigate(
-                BrowseHouseholdsFragmentDirections.actionBrowseHouseholdsToMainMenu()
+                BrowseHouseholdsFragmentDirections.actionBrowseHouseholdsToCreateHouseholdFragment()
             )
         }
     }

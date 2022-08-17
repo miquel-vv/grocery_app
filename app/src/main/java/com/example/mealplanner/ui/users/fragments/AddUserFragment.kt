@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.mealplanner.data.LoadingStatus
 import com.example.mealplanner.databinding.FragmentAddUserBinding
-import com.example.mealplanner.ui.households.fragments.HouseholdViewFragment
 import com.example.mealplanner.ui.users.viewmodels.AddUserViewModel
 import com.example.mealplanner.ui.users.viewmodels.AddUserViewModelFactory
 
