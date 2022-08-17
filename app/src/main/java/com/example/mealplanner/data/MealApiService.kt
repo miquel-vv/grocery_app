@@ -37,6 +37,16 @@ interface HouseholdApiService {
     @GET("households/{id}/members")
     fun getMembers(@Path("id") householdId: Number, @Header("Authorization") authorization:String):
             Call<MembersResponse>
+
+    @PUT("households/{householdId}/addMember/{userId}")
+    fun addMember(@Path("householdId") householdId: Number, @Path("userId") userId: Int, @Header("Authorization") authorization:String):
+            Call<MemberResponse>
+}
+
+interface UsersApiService {
+    @GET("users/byEmail/{email}")
+    fun getUserId(@Path("email") email:String, @Header("Authorization") authorization:String):
+            Call<UserIdResponse>
 }
 
 interface ScheduleApiService {
@@ -52,6 +62,10 @@ object MealPlannerApi {
 
     val householdService: HouseholdApiService by lazy {
         retrofit.create(HouseholdApiService::class.java)
+    }
+
+    val userService: UsersApiService by lazy {
+        retrofit.create(UsersApiService::class.java)
     }
 
     val scheduleService : ScheduleApiService by lazy {

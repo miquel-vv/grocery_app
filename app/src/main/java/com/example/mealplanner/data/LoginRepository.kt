@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.mealplanner.data.model.LoginBody
 import com.example.mealplanner.data.model.LoginResponse
 import com.example.mealplanner.data.model.User
-import com.example.mealplanner.ui.login.LoginStatus
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,8 +19,8 @@ object LoginRepository {
     private var user:User? = null
     private var token:String = ""
 
-    private val _loginStatus = MutableLiveData(LoginStatus.NOT_STARTED)
-    val loginStatus : LiveData<LoginStatus>
+    private val _loginStatus = MutableLiveData(LoadingStatus.NOT_STARTED)
+    val loadingStatus : LiveData<LoadingStatus>
         get() = _loginStatus
 
     fun init(dataSource: LoginDataSource){
@@ -29,7 +28,7 @@ object LoginRepository {
     }
 
     fun login(email:String, password:String){
-        _loginStatus.value = LoginStatus.LOADING
+        _loginStatus.value = LoadingStatus.LOADING
         var user:User?
         var token = ""
         val body = LoginBody(email, password)
@@ -49,7 +48,7 @@ object LoginRepository {
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
                     Log.d("LOGIN_REPO", "Error fetching from remote.")
-                    _loginStatus.value = LoginStatus.FAILED
+                    _loginStatus.value = LoadingStatus.FAILED
                 }
             }
         )
@@ -59,18 +58,18 @@ object LoginRepository {
         this.user = user
         this.token = token
         dataSource!!.storeToken(token)
-        this._loginStatus.value = LoginStatus.SUCCESS
+        this._loginStatus.value = LoadingStatus.SUCCESS
     }
 
     fun logout() {
         user = null
         token = ""
-        this._loginStatus.value = LoginStatus.NOT_STARTED
+        this._loginStatus.value = LoadingStatus.NOT_STARTED
         dataSource!!.logout()
     }
 
     fun getUserId():Number {
-        if(this._loginStatus.value != LoginStatus.SUCCESS && this.user != null){
+        if(this._loginStatus.value != LoadingStatus.SUCCESS && this.user != null){
             throw Exception("No user logged in.")
         }
 
@@ -78,7 +77,7 @@ object LoginRepository {
     }
 
     fun getAuthToken():String {
-        if(this._loginStatus.value != LoginStatus.SUCCESS && this.token != ""){
+        if(this._loginStatus.value != LoadingStatus.SUCCESS && this.token != ""){
             throw Exception("No user logged in.")
         }
         Log.d("LOGIN_REPO", "Returning token: $token")

@@ -35,6 +35,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/email_label" />
 
+    <!--
     <TextView
         android:id="@+id/username_label"
         android:layout_width="fill_parent"
@@ -63,16 +64,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username_label" />
-
+    -->
     <Button
         android:id="@+id/search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/search"
+        android:text="@string/add_user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_username" />
+        app:layout_constraintTop_toBottomOf="@+id/user_email" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/results"

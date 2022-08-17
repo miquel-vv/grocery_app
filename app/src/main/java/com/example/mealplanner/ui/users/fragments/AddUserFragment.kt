@@ -9,10 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.mealplanner.data.LoadingStatus
 import com.example.mealplanner.databinding.FragmentAddUserBinding
 import com.example.mealplanner.ui.users.viewmodels.AddUserViewModel
 import com.example.mealplanner.ui.users.viewmodels.AddUserViewModelFactory
 
+private const val TAG = "ADD_USER_FRAGMENT"
 
 class AddUserFragment : Fragment(), UserAdapter.OnUserListener {
 
@@ -29,7 +31,7 @@ class AddUserFragment : Fragment(), UserAdapter.OnUserListener {
         _binding = FragmentAddUserBinding.inflate(inflater, container, false)
 
         attachViewModel()
-        setUpSearchResults()
+        setUpObservables()
         setUpButtonActions()
 
         return binding.root
@@ -40,22 +42,39 @@ class AddUserFragment : Fragment(), UserAdapter.OnUserListener {
         viewModel = ViewModelProvider(this, viewModelFactory).get(AddUserViewModel::class.java)
     }
 
+    private fun setUpObservables(){
+        setUpSearchResults()
+        setUpAddingMember()
+    }
+
     private fun setUpSearchResults(){
-        val adapter = UserAdapter(this)
-        binding.results.adapter = adapter
-        viewModel.searchResults.observe(viewLifecycleOwner, Observer { results ->
-            Log.i("AddUserFragment", results.toString())
-            adapter.data = results
+        viewModel.userId.observe(viewLifecycleOwner, Observer { result ->
+            Log.i(TAG, result.toString())
+            viewModel.addUserToHousehold(result)
+        })
+    }
+
+    private fun setUpAddingMember(){
+        viewModel.addingMemberStatus.observe(viewLifecycleOwner, {status ->
+            if(status == LoadingStatus.SUCCESS){
+                navigateBackToHousehold()
+            } else if(status == LoadingStatus.FAILED) {
+                Log.d(TAG, "Couldn't add user...")
+            }
         })
     }
 
     private fun setUpButtonActions(){
         binding.search.setOnClickListener {
-            viewModel.searchByEmail("something")
+            viewModel.searchByEmail(binding.userEmail.text.toString())
         }
     }
 
     override fun onUserClick(position: Int) {
+        navigateBackToHousehold()
+    }
+
+    private fun navigateBackToHousehold() {
         findNavController().navigate(
             AddUserFragmentDirections.actionAddUserFragmentToHouseholdView(viewModel.position)
         )

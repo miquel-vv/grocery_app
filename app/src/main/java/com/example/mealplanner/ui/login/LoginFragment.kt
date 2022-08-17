@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.mealplanner.data.LoadingStatus
 import com.example.mealplanner.databinding.FragmentLoginBinding
 import com.example.mealplanner.ui.main.MainActivity
 
@@ -36,17 +37,17 @@ class LoginFragment : Fragment() {
     }
 
     private fun createObservation() {
-        val observer = Observer<LoginStatus> { status ->
-            if(status == LoginStatus.SUCCESS) {
+        val observer = Observer<LoadingStatus> { status ->
+            if(status == LoadingStatus.SUCCESS) {
                 val intent = Intent(this.activity, MainActivity::class.java)
                 startActivity(intent)
-            } else if(status == LoginStatus.LOADING) {
+            } else if(status == LoadingStatus.LOADING) {
                 Log.d("LOGIN_FRAGMENT", "Logging in...")
-            } else if(status == LoginStatus.FAILED) {
+            } else if(status == LoadingStatus.FAILED) {
                 Log.d("LOGIN_FRAGMENT", "Failed logging in...")
             }
         }
-        viewModel.loginStatus.observe(viewLifecycleOwner, observer)
+        viewModel.loadingStatus.observe(viewLifecycleOwner, observer)
     }
 
     private fun setActions(binding: FragmentLoginBinding){

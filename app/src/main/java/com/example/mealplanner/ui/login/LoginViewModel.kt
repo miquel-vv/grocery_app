@@ -3,8 +3,8 @@ package com.example.mealplanner.ui.login
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.mealplanner.data.LoadingStatus
 import com.example.mealplanner.data.LoginRepository
-import com.example.mealplanner.ui.login.LoginStatus
 
 class LoginViewModel: ViewModel(){
 
@@ -12,8 +12,8 @@ class LoginViewModel: ViewModel(){
     private var password:String = ""
     private val repo = LoginRepository
 
-    val loginStatus : LiveData<LoginStatus>
-        get() = repo.loginStatus
+    val loadingStatus : LiveData<LoadingStatus>
+        get() = repo.loadingStatus
 
     init {
         Log.i("LoginViewModel", "LoginViewModel created")
