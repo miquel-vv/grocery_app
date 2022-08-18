@@ -15,4 +15,8 @@ class CreateHouseholdViewModel : ViewModel() {
     fun createHousehold(name:String){
         householdRepo.createHousehold(name)
     }
+
+    fun resetStatus(){
+        householdRepo.resetCreateStatus()
+    }
 }

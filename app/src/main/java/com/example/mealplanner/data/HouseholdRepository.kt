@@ -25,6 +25,10 @@ object HouseholdRepository {
     val createHouseholdStatus:LiveData<LoadingStatus>
         get() = _createHouseholdStatus
 
+    private val _updateHouseholdStatus = MutableLiveData(LoadingStatus.NOT_STARTED)
+    val updateHouseholdStatus:LiveData<LoadingStatus>
+        get() = _updateHouseholdStatus
+
     private val loginRepo = LoginRepository
 
     fun fetchHouseholds(){
@@ -94,4 +98,34 @@ object HouseholdRepository {
             })
     }
 
+    fun updateHousehold(householdId:Number, name:String){
+        _updateHouseholdStatus.value = LoadingStatus.LOADING
+        MealPlannerApi.householdService.updateHousehold(householdId, loginRepo.getAuthToken(), CreateHousehold(name))
+            .enqueue(object: Callback<HouseholdResponse>{
+                override fun onResponse(
+                    call: Call<HouseholdResponse>,
+                    res: Response<HouseholdResponse>
+                ) {
+                    if(res.isSuccessful){
+                        _updateHouseholdStatus.value = LoadingStatus.SUCCESS
+                    } else {
+                        _updateHouseholdStatus.value = LoadingStatus.FAILED
+                        Log.d(TAG, "onResponse: $res")
+                    }
+                }
+
+                override fun onFailure(call: Call<HouseholdResponse>, t: Throwable) {
+                    _updateHouseholdStatus.value = LoadingStatus.FAILED
+                    throw t
+                }
+            })
+    }
+
+    fun resetCreateStatus(){
+        _createHouseholdStatus.value = LoadingStatus.NOT_STARTED
+    }
+
+    fun resetUpdateStatus(){
+        _updateHouseholdStatus.value = LoadingStatus.NOT_STARTED
+    }
 }

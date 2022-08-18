@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.mealplanner.data.HouseholdRepository
+import com.example.mealplanner.data.LoadingStatus
 import com.example.mealplanner.data.MemberRepository
 import com.example.mealplanner.data.model.Household
 import com.example.mealplanner.data.model.Member
@@ -21,6 +22,9 @@ class HouseholdViewModel(householdPosition:Int) : ViewModel(){
     val members: LiveData<List<Member>>
         get() = membersRepo.members
 
+    val updateHouseholdStatus: LiveData<LoadingStatus>
+        get() = householdRepo.updateHouseholdStatus
+
     private val householdRepo = HouseholdRepository
     private var membersRepo:MemberRepository
 
@@ -32,6 +36,14 @@ class HouseholdViewModel(householdPosition:Int) : ViewModel(){
 
     fun deleteMember(position: Int){
         membersRepo.removeMember(membersRepo.members.value?.get(position)!!.user.id)
+    }
+
+    fun updateHousehold(name:String){
+        householdRepo.updateHousehold(_household.value!!.id, name)
+    }
+
+    fun resetStatus(){
+        householdRepo.resetUpdateStatus()
     }
 
     private fun getHousehold(position:Int): Household {

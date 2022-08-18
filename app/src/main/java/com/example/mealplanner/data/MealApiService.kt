@@ -46,6 +46,10 @@ interface HouseholdApiService {
     fun removeMember(@Path("householdId") householdId: Number, @Path("userId") userId: Number, @Header("Authorization") authorization:String):
             Call<MemberResponse>
 
+    @PUT("households/{householdId}")
+    fun updateHousehold(@Path("householdId") householdId: Number, @Header("Authorization") authorization:String, @Body body:CreateHousehold):
+            Call<HouseholdResponse>
+
     @POST("households/{userId}")
     fun createHousehold(@Path("userId") userId: Number, @Header("Authorization") authorization:String, @Body body:CreateHousehold):
             Call<HouseholdResponse>

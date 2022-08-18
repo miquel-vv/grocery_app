@@ -9,10 +9,13 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.mealplanner.data.LoadingStatus
 import com.example.mealplanner.databinding.FragmentHouseholdViewBinding
 import com.example.mealplanner.ui.households.viewmodels.HouseholdViewModel
 import com.example.mealplanner.ui.households.viewmodels.HouseholdViewModelFactory
 
+
+private const val TAG = "HOUSEHOLD_VIEW_FRAGMENT"
 
 class HouseholdViewFragment : Fragment(), MemberAdapter.onMemberDeleteListener{
 
@@ -30,6 +33,7 @@ class HouseholdViewFragment : Fragment(), MemberAdapter.onMemberDeleteListener{
 
         attachViewModel()
         setUpMembersRecyclerView()
+        setUpSaveListener()
         setButtonActions()
 
         return binding.root
@@ -51,6 +55,14 @@ class HouseholdViewFragment : Fragment(), MemberAdapter.onMemberDeleteListener{
         })
     }
 
+    private fun setUpSaveListener(){
+        viewModel.updateHouseholdStatus.observe(viewLifecycleOwner, Observer { status ->
+            if(status == LoadingStatus.SUCCESS){
+                goToBrowse()
+            }
+        })
+    }
+
     private fun setButtonActions(){
         setAddUserAction()
         setCancelButtonAction()
@@ -67,27 +79,35 @@ class HouseholdViewFragment : Fragment(), MemberAdapter.onMemberDeleteListener{
 
     private fun setCancelButtonAction(){
         binding.cancelButton.setOnClickListener {
-            findNavController().navigate(
-                HouseholdViewFragmentDirections.actionHouseholdViewToBrowseHouseholds()
-            )
+            goToBrowse()
         }
     }
 
     private fun setSaveButtonAction(){
         binding.saveButton.setOnClickListener {
-            findNavController().navigate(
-                HouseholdViewFragmentDirections.actionHouseholdViewToBrowseHouseholds()
-            )
+            val newName = binding.householdName.text.toString()
+            if(newName != ""){
+                viewModel.updateHousehold(newName)
+            } else {
+                goToBrowse()
+            }
         }
     }
 
+    private fun goToBrowse(){
+        findNavController().navigate(
+            HouseholdViewFragmentDirections.actionHouseholdViewToBrowseHouseholds()
+        )
+    }
+
     override fun onDestroyView() {
+        viewModel.resetStatus()
         super.onDestroyView()
         _binding = null
     }
 
     override fun deleteMember(position: Int) {
-        Log.d("HouseholdView", String.format("deleteMember: %s", position))
+        Log.d(TAG, String.format("deleteMember: %s", position))
         viewModel.deleteMember(position)
     }
 }

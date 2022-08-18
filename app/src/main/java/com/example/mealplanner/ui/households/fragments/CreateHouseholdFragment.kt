@@ -68,4 +68,10 @@ class CreateHouseholdFragment : Fragment() {
             CreateHouseholdFragmentDirections.actionCreateHouseholdFragmentToBrowseHouseholds()
         )
     }
+
+    override fun onDestroyView() {
+        viewModel.resetStatus()
+        super.onDestroyView()
+        _binding = null
+    }
 }
