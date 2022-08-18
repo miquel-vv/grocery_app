@@ -26,6 +26,12 @@ class HouseholdAdapter(private val onHouseholdListener: OnHouseholdListener) : R
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = data[position]
         holder.name.text = item.household.name
+        if(item.isOwner){
+            holder.memberStatus.text = "Owner"
+            holder.makeEditable()
+        } else {
+            holder.memberStatus.text = "Member"
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -41,12 +47,19 @@ class HouseholdAdapter(private val onHouseholdListener: OnHouseholdListener) : R
         private val deleteButton : ImageView = itemView.findViewById(R.id.delete_household)
 
         init {
+
+            deleteButton.visibility = View.GONE
+
             itemView.setOnClickListener {
                 onHouseholdListener.onHouseholdClick(adapterPosition)
             }
             deleteButton.setOnClickListener {
                 onHouseholdListener.onDeleteClick(adapterPosition)
             }
+        }
+
+        fun makeEditable(){
+            deleteButton.visibility = View.VISIBLE
         }
     }
 
