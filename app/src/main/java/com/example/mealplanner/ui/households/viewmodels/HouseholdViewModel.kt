@@ -46,6 +46,14 @@ class HouseholdViewModel(householdPosition:Int) : ViewModel(){
         householdRepo.resetUpdateStatus()
     }
 
+    fun makeOwner(position: Int){
+        membersRepo.makeOwner(members.value!![position].user.id)
+    }
+
+    fun revokeOwner(position: Int){
+        membersRepo.revokeOwner(members.value!![position].user.id)
+    }
+
     private fun getHousehold(position:Int): Household {
         val households = householdRepo.households.value!!
 

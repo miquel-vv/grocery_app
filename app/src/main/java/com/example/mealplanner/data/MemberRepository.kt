@@ -62,4 +62,44 @@ class MemberRepository(val household: Household) {
                 }
             })
     }
+
+    fun makeOwner(userId: Number){
+        MealPlannerApi.householdService.makeOwner(household.id, userId, loginRepo.getAuthToken())
+            .enqueue(object: Callback<MemberResponse>{
+                override fun onResponse(
+                    call: Call<MemberResponse>,
+                    res: Response<MemberResponse>
+                ) {
+                    if(res.isSuccessful){
+                        Log.d(TAG, "onResponse: Success")
+                    } else {
+                        Log.d(TAG, "response: $res")
+                    }
+                }
+
+                override fun onFailure(call: Call<MemberResponse>, t: Throwable) {
+                    throw t
+                }
+            })
+    }
+    
+    fun revokeOwner(userId: Number){
+        MealPlannerApi.householdService.revokeOwner(household.id, userId, loginRepo.getAuthToken())
+            .enqueue(object: Callback<MemberResponse>{
+                override fun onResponse(
+                    call: Call<MemberResponse>,
+                    res: Response<MemberResponse>
+                ) {
+                    if(res.isSuccessful){
+                        Log.d(TAG, "onResponse: Success")
+                    } else {
+                        Log.d(TAG, "response: $res")
+                    }
+                }
+
+                override fun onFailure(call: Call<MemberResponse>, t: Throwable) {
+                    throw t
+                }
+            })
+    }
 }

@@ -57,6 +57,14 @@ interface HouseholdApiService {
     @DELETE("households/{householdId}")
     fun deleteHousehold(@Path("householdId") householdId: Number, @Header("Authorization") authorization:String):
             Call<HouseholdResponse>
+
+    @PUT("households/{householdId}/addOwner/{userId}")
+    fun makeOwner(@Path("householdId") householdId: Number, @Path("userId") userId: Number, @Header("Authorization") authorization:String):
+            Call<MemberResponse>
+
+    @PUT("households/{householdId}/revokeOwner/{userId}")
+    fun revokeOwner(@Path("householdId") householdId: Number, @Path("userId") userId: Number, @Header("Authorization") authorization:String):
+            Call<MemberResponse>
 }
 
 interface UsersApiService {

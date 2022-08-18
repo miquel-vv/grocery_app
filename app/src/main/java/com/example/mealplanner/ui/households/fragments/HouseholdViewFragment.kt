@@ -17,7 +17,7 @@ import com.example.mealplanner.ui.households.viewmodels.HouseholdViewModelFactor
 
 private const val TAG = "HOUSEHOLD_VIEW_FRAGMENT"
 
-class HouseholdViewFragment : Fragment(), MemberAdapter.onMemberDeleteListener{
+class HouseholdViewFragment : Fragment(), MemberAdapter.onMemberListener{
 
     private lateinit var viewModel: HouseholdViewModel
     private lateinit var viewModelFactory: HouseholdViewModelFactory
@@ -107,7 +107,16 @@ class HouseholdViewFragment : Fragment(), MemberAdapter.onMemberDeleteListener{
     }
 
     override fun deleteMember(position: Int) {
-        Log.d(TAG, String.format("deleteMember: %s", position))
+        Log.d(TAG, String.format("deleteMember: $position"))
         viewModel.deleteMember(position)
+    }
+
+    override fun updateOwnership(position: Int, isOwner: Boolean) {
+        Log.d(TAG, "updateOwnership: $position")
+        if(isOwner){
+            viewModel.makeOwner(position)
+        } else {
+            viewModel.revokeOwner(position)
+        }
     }
 }
