@@ -34,6 +34,10 @@ class HouseholdViewModel(householdPosition:Int) : ViewModel(){
         membersRepo = MemberRepository(h)
     }
 
+    fun isOwner():Boolean{
+        return membersRepo.isOwner
+    }
+
     fun deleteMember(position: Int){
         membersRepo.removeMember(membersRepo.members.value?.get(position)!!.user.id)
     }

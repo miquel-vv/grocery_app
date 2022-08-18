@@ -50,6 +50,7 @@ class HouseholdViewFragment : Fragment(), MemberAdapter.onMemberListener{
         val adapter = MemberAdapter(this)
         binding.members.adapter = adapter
         viewModel.members.observe(viewLifecycleOwner, Observer { members ->
+            adapter.isAllowedToEdit = viewModel.isOwner()
             adapter.data = members
             adapter.notifyDataSetChanged()
         })

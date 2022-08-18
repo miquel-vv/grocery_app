@@ -6,9 +6,15 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mealplanner.R
+import com.example.mealplanner.data.LoginRepository
+import com.example.mealplanner.data.model.LoginContent
 import com.example.mealplanner.data.model.Member
 
 class MemberAdapter(private val listener: onMemberListener) : RecyclerView.Adapter<MemberAdapter.ViewHolder>() {
+
+    private val loginRepo = LoginRepository
+    var isAllowedToEdit : Boolean = false
+
     var data = listOf<Member>()
         set(value){
             field = value
@@ -25,6 +31,9 @@ class MemberAdapter(private val listener: onMemberListener) : RecyclerView.Adapt
         val item = data[position]
         holder.name.text = String.format("%s %s", item.user.firstName, item.user.lastName)
         holder.owner.isChecked = item.isOwner
+        if(isAllowedToEdit && item.user.id != loginRepo.getUserId()){
+            holder.makeEditable()
+        }
     }
 
     override fun getItemCount() = data.size
@@ -36,6 +45,9 @@ class MemberAdapter(private val listener: onMemberListener) : RecyclerView.Adapt
         val ownership: CheckBox = itemView.findViewById(R.id.owner_status)
 
         init {
+            button.visibility = View.GONE
+            ownership.visibility = View.GONE
+
             button.setOnClickListener {
                 listener.deleteMember(adapterPosition)
             }
@@ -43,6 +55,11 @@ class MemberAdapter(private val listener: onMemberListener) : RecyclerView.Adapt
             ownership.setOnClickListener {
                 listener.updateOwnership(adapterPosition, ownership.isChecked)
             }
+        }
+
+        fun makeEditable(){
+            button.visibility = View.VISIBLE
+            ownership.visibility = View.VISIBLE
         }
     }
 

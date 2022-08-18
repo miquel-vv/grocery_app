@@ -17,9 +17,15 @@ class MemberRepository(val household: Household) {
         get() = _members
 
     private val loginRepo = LoginRepository
+    var isOwner : Boolean = false
 
     init {
         fetchMembers()
+    }
+
+    private fun _isOwner( memberships : List<Member>):Boolean{
+        val membership = memberships.first() { m -> m.user.id == loginRepo.getUserId()}
+        return membership.isOwner
     }
 
     fun fetchMembers() {
@@ -30,7 +36,9 @@ class MemberRepository(val household: Household) {
                     res: Response<MembersResponse>
                 ) {
                     if(res.isSuccessful){
-                        _members.value = res.body()!!.content
+                        val result = res.body()!!.content
+                        isOwner = _isOwner(result)
+                        _members.value = result
                     } else {
                         Log.d(TAG, "response: $res")
                     }
