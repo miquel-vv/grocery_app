@@ -53,6 +53,10 @@ interface HouseholdApiService {
     @POST("households/{userId}")
     fun createHousehold(@Path("userId") userId: Number, @Header("Authorization") authorization:String, @Body body:CreateHousehold):
             Call<HouseholdResponse>
+
+    @DELETE("households/{householdId}")
+    fun deleteHousehold(@Path("householdId") householdId: Number, @Header("Authorization") authorization:String):
+            Call<HouseholdResponse>
 }
 
 interface UsersApiService {

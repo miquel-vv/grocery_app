@@ -1,14 +1,18 @@
 package com.example.mealplanner.ui.households.fragments
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mealplanner.R
 import com.example.mealplanner.data.model.Household
 import com.example.mealplanner.data.model.Membership
 
+
+private const val TAG = "HOUSEHOLD_ADAPTER"
 
 class HouseholdAdapter(private val onHouseholdListener: OnHouseholdListener) : RecyclerView.Adapter<HouseholdAdapter.ViewHolder>() {
     var data = listOf<Membership>()
@@ -31,21 +35,24 @@ class HouseholdAdapter(private val onHouseholdListener: OnHouseholdListener) : R
     }
 
     class ViewHolder(itemView: View, private val onHouseholdListener: OnHouseholdListener)
-        : RecyclerView.ViewHolder(itemView), View.OnClickListener{
+        : RecyclerView.ViewHolder(itemView) {
         val name: TextView = itemView.findViewById(R.id.household_name)
         val memberStatus : TextView = itemView.findViewById(R.id.member_status)
+        private val deleteButton : ImageView = itemView.findViewById(R.id.delete_household)
 
         init {
-            itemView.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View?) {
-            onHouseholdListener.onHouseholdClick(adapterPosition)
+            itemView.setOnClickListener {
+                onHouseholdListener.onHouseholdClick(adapterPosition)
+            }
+            deleteButton.setOnClickListener {
+                onHouseholdListener.onDeleteClick(adapterPosition)
+            }
         }
     }
 
     interface OnHouseholdListener{
         fun onHouseholdClick(position:Int)
+        fun onDeleteClick(position: Int)
     }
 }
 

@@ -59,4 +59,8 @@ class BrowseHouseholdsFragment : Fragment(), HouseholdAdapter.OnHouseholdListene
             BrowseHouseholdsFragmentDirections.actionBrowseHouseholdsToHouseholdView(position)
         )
     }
+
+    override fun onDeleteClick(position: Int) {
+        viewModel.deleteHousehold(position)
+    }
 }

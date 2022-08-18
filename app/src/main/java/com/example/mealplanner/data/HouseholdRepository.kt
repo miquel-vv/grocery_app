@@ -121,6 +121,28 @@ object HouseholdRepository {
             })
     }
 
+    fun deleteHousehold(householdId: Number){
+        MealPlannerApi.householdService.deleteHousehold(householdId, loginRepo.getAuthToken())
+            .enqueue(object: Callback<HouseholdResponse>{
+                override fun onResponse(
+                    call: Call<HouseholdResponse>,
+                    res: Response<HouseholdResponse>
+                ) {
+                    if(res.isSuccessful){
+                        val newList = _households.value!!.filter{ m -> m.household.id != householdId}
+                        _households.value = newList
+                        Log.d(TAG, "onResponse: Succes")
+                    } else {
+                        Log.d(TAG, "onResponse: $res")
+                    }
+                }
+
+                override fun onFailure(call: Call<HouseholdResponse>, t: Throwable) {
+                    throw t
+                }
+            })
+    }
+
     fun resetCreateStatus(){
         _createHouseholdStatus.value = LoadingStatus.NOT_STARTED
     }

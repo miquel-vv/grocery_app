@@ -21,6 +21,11 @@ class BrowseHouseholdsViewModel : ViewModel() {
         repo.fetchHouseholds()
     }
 
+    fun deleteHousehold(position:Int){
+        val membership = repo.households.value!![position]
+        repo.deleteHousehold(membership.household.id)
+    }
+
     override fun onCleared() {
         super.onCleared()
         Log.i(TAG, "Clearing householdviewmodel")
