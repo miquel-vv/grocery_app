@@ -46,7 +46,7 @@ class MemberAdapter(private val listener: onMemberListener) : RecyclerView.Adapt
 
         init {
             button.visibility = View.GONE
-            ownership.visibility = View.GONE
+            ownership.isEnabled = false
 
             button.setOnClickListener {
                 listener.deleteMember(adapterPosition)
@@ -59,7 +59,7 @@ class MemberAdapter(private val listener: onMemberListener) : RecyclerView.Adapt
 
         fun makeEditable(){
             button.visibility = View.VISIBLE
-            ownership.visibility = View.VISIBLE
+            ownership.isEnabled = true
         }
     }
 
