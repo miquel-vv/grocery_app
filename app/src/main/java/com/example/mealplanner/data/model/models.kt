@@ -1,9 +1,7 @@
 package com.example.mealplanner.data.model
 
-import androidx.room.ColumnInfo
+import androidx.room.*
 import java.util.*
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 
 data class Link(val full:String, val route:String)
 data class MembershipLink(val isOwner:Boolean, val household:Link)
@@ -79,10 +77,9 @@ enum class GroceryItemStatus{
     OPEN, SCRAPPED, REMOVED
 }
 
-@Entity(tableName = "grocery_items")
+@Entity(tableName = "grocery_items", primaryKeys = ["spoon_id","status"])
 data class GroceryItem(
-    @PrimaryKey(autoGenerate = true)
-    val id:Long,
+
     @ColumnInfo(name="spoon_id")
     val spoonId:Long,
     @ColumnInfo(name="name")
@@ -92,7 +89,8 @@ data class GroceryItem(
     @ColumnInfo(name="unit")
     val unit:String,
     @ColumnInfo(name="status")
-    val status:GroceryItemStatus) {
+    @TypeConverters(Converters::class)
+    val status:GroceryItemStatus = GroceryItemStatus.OPEN) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -100,12 +98,20 @@ data class GroceryItem(
 
         other as GroceryItem
 
-        if (id == other.id && status == other.status) return true
+        if (spoonId == other.spoonId && status == other.status) return true
 
         return false
     }
 
     override fun hashCode(): Int {
-        return id.hashCode() * 7 + status.hashCode()
+        return spoonId.hashCode() * 7 + status.hashCode()
     }
+}
+
+class Converters {
+    @TypeConverter
+    fun toGroceryItemStatus(value: String) = enumValueOf<GroceryItemStatus>(value)
+
+    @TypeConverter
+    fun fromGroceryItemStatus(value: GroceryItemStatus) = value.name
 }

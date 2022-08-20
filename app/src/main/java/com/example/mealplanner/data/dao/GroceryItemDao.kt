@@ -18,4 +18,7 @@ interface GroceryItemDao {
 
     @Update
     fun update(groceryItem: GroceryItem)
+
+    @Query("delete from grocery_items")
+    fun clear()
 }

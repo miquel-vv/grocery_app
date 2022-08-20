@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.example.mealplanner.data.dao.GroceryListDatabase
 import com.example.mealplanner.data.model.GroceryItem
 import com.example.mealplanner.data.model.Membership
 import com.example.mealplanner.databinding.FragmentGroceryListBinding
@@ -21,6 +22,8 @@ class GroceryListFragment : Fragment() {
 
     private var _binding: FragmentGroceryListBinding? = null
     private val binding get() = _binding!!
+
+    private var gotDatabaseData = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +40,9 @@ class GroceryListFragment : Fragment() {
     }
 
     private fun attachViewModel(){
-        viewModelFactory = GroceryListViewModelFactory()
+        val application = requireNotNull(this.activity).application
+        val dataSource = GroceryListDatabase.getInstance(application).groceryItemDao
+        viewModelFactory = GroceryListViewModelFactory(dataSource, application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(GroceryListViewModel::class.java)
     }
 
@@ -45,18 +50,21 @@ class GroceryListFragment : Fragment() {
         val adapter = GroceryItemAdapter()
         binding.groceryList.adapter = adapter
         viewModel.groceryList.observe(viewLifecycleOwner, {
+            gotDatabaseData = true
             adapter.data = it.toList()
+            if(viewModel.households.value!!.isNotEmpty()){
+                viewModel.updateGroceryList(adapter.data, viewModel.households.value!!)
+            }
             adapter.notifyDataSetChanged()
         })
     }
 
     private fun setUpObservable(){
         viewModel.households.observe(viewLifecycleOwner, {households ->
-            getGroceryList(households)
+            if(gotDatabaseData){
+                viewModel.updateGroceryList(viewModel.groceryList.value!!, households)
+            }
         })
     }
 
-    private fun getGroceryList(memberships:List<Membership>){
-        viewModel.getGroceryList(memberships)
-    }
 }

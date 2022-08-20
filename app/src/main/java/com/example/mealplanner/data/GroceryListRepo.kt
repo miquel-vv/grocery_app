@@ -1,24 +1,75 @@
 package com.example.mealplanner.data
 
+import android.content.SharedPreferences
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.mealplanner.data.dao.GroceryItemDao
 import com.example.mealplanner.data.model.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.lang.RuntimeException
 
 
 private const val TAG = "GROCERY_LIST_REPO"
 
-class GroceryListRepo {
+class GroceryListRepo(val database:GroceryItemDao, val preferences: SharedPreferences) {
 
     private val loginRepo = LoginRepository
+    private var groceries:Set<GroceryItem>? = null
+    private var needsSyncing = true
 
-    suspend fun getGroceryList(households:List<Household>):Set<GroceryItem>{
+    val groceryList:LiveData<List<GroceryItem>> = database.getAllItems()
 
+    private suspend fun getGroceryList(households:List<Household>):Set<GroceryItem>{
+        if(groceries == null){
+            groceries = fetchRemoteGroceryList(households)
+        }
+
+        return groceries as Set<GroceryItem>
+    }
+
+    suspend fun updateGroceryList(list: List<GroceryItem>, households: List<Household>){
+        if(!needsSyncing){
+            return
+        }
+        needsSyncing = false
+
+        val remote = getGroceryList(households)
+        Log.d(TAG, "updateGroceryList: Found ${remote.size} new remote items.")
+        var updated = 0
+
+        remote.forEach {
+            if(!list.contains(it)){
+                updated += 1
+                saveGroceryItem(it)
+            } else if(list.get(list.indexOf(it)).amount != it.amount) {
+                updated += 1
+                updateGroceryItem(it)
+            }
+        }
+
+        Log.d(TAG, "updateGroceryList: Updated $updated items.")
+    }
+
+    suspend fun updateGroceryItem(item: GroceryItem){
+        withContext(Dispatchers.IO){
+            database.update(item)
+        }
+    }
+
+    private suspend fun fetchRemoteGroceryList(households: List<Household>): Set<GroceryItem>{
         val schedules = getSchedules(households)
         val meals = getMeals(schedules)
         val recipeIds = getRecipeIds(meals)
         val ingredients = getIngredients(recipeIds)
         val groceryItems = getGroceryItems(ingredients)
+
+        Log.d(TAG, "fetchRemoteGroceryList: Done getting remote data")
+        val editor = preferences.edit()
+        editor.putLong("last_update", System.currentTimeMillis())
+        editor.apply()
 
         return consolidateGroceryItems(groceryItems)
     }
@@ -53,7 +104,9 @@ class GroceryListRepo {
             }
         }
 
-        return meals
+        val lastUpdate = preferences.getLong("last_update", 0)
+
+        return meals.filter { it.date.time > lastUpdate }
     }
 
     private fun getRecipeIds(meals: List<Meal>):List<Number>{
@@ -82,7 +135,7 @@ class GroceryListRepo {
 
     private fun getGroceryItems(ingredients:List<Ingredient>) : List<GroceryItem>{
         return ingredients.map { i ->
-            GroceryItem(i.id, i.id, i.name, i.measures.metric.amount, i.measures.metric.unitLong, GroceryItemStatus.OPEN)
+            GroceryItem(i.id, i.name, i.measures.metric.amount, i.measures.metric.unitLong, GroceryItemStatus.OPEN)
         }
     }
 
@@ -96,5 +149,25 @@ class GroceryListRepo {
             }
         }
         return groceryItems
+    }
+
+    private suspend fun getLocalGroceryList(){
+        withContext(Dispatchers.IO){
+            database.getAllItems()
+        }
+    }
+
+    suspend fun saveGroceryList(groceries: Set<GroceryItem>){
+        withContext(Dispatchers.IO){
+            groceries.forEach {
+                database.insert(it)
+            }
+        }
+    }
+
+    suspend fun saveGroceryItem(item: GroceryItem){
+        withContext(Dispatchers.IO){
+            database.insert(item)
+        }
     }
 }
