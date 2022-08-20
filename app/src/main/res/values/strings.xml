@@ -39,6 +39,5 @@
     <string name="by_email">By Email</string>
     <string name="by_username">By Username</string>
     <string name="title_activity_example_login">ExampleLoginActivity</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="groceries_fragment_title">Groceries</string>
 </resources>

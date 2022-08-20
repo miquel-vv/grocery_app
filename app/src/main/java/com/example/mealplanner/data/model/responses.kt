@@ -24,6 +24,7 @@ data class Measures(
 )
 
 data class Ingredient(
+    val id:Long,
     val name:String,
     val measures: Measures
 )

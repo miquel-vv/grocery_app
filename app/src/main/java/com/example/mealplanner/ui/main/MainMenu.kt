@@ -31,6 +31,10 @@ class MainMenu : Fragment() {
         binding.manageHouseholds.setOnClickListener {
             findNavController().navigate(R.id.action_MainMenu_to_BrowseHousholds)
         }
+
+        binding.manageGroceryList.setOnClickListener {
+            findNavController().navigate(R.id.action_MainMenu_to_groceryListFragment)
+        }
     }
 
     override fun onDestroyView() {

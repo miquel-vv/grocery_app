@@ -72,27 +72,40 @@ data class Meal(
     val name:String,
     val date: Date,
     val numberOfPeople:Number,
-    val spoontacularId:Number
+    val spoontacularId:Number?
 )
+
+enum class GroceryItemStatus{
+    OPEN, SCRAPPED, REMOVED
+}
 
 @Entity(tableName = "grocery_items")
 data class GroceryItem(
     @PrimaryKey(autoGenerate = true)
     val id:Long,
+    @ColumnInfo(name="spoon_id")
+    val spoonId:Long,
     @ColumnInfo(name="name")
     val name:String,
     @ColumnInfo(name="amount")
-    val amount:Float,
+    var amount:Float,
     @ColumnInfo(name="unit")
-    val unit:String
-)
+    val unit:String,
+    @ColumnInfo(name="status")
+    val status:GroceryItemStatus) {
 
-/*
-@Entity(tableName = "grocery_lists")
-data class GroceryList(
-    @PrimaryKey(autoGenerate = true)
-    val id:Long,
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
 
-    val items: List<GroceryItem>
-)
-*/
+        other as GroceryItem
+
+        if (id == other.id && status == other.status) return true
+
+        return false
+    }
+
+    override fun hashCode(): Int {
+        return id.hashCode() * 7 + status.hashCode()
+    }
+}

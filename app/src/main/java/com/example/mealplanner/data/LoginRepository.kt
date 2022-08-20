@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.mealplanner.data.model.LoginBody
 import com.example.mealplanner.data.model.LoginResponse
+import com.example.mealplanner.data.model.MembershipLink
 import com.example.mealplanner.data.model.User
 import retrofit2.Call
 import retrofit2.Callback
@@ -82,5 +83,9 @@ object LoginRepository {
         }
         Log.d("LOGIN_REPO", "Returning token: $token")
         return "Bearer ${this.token}"
+    }
+
+    fun getHouseholds():Array<MembershipLink>{
+        return this.user!!.households
     }
 }

@@ -120,6 +120,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/manage_grocery_list"
             android:layout_row="1"
             android:layout_rowWeight="1"
             android:layout_column="1"

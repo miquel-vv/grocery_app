@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mealplanner.R
-import com.example.mealplanner.data.model.Household
 import com.example.mealplanner.data.model.Membership
 
 

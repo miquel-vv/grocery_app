@@ -14,6 +14,9 @@
         <action
             android:id="@+id/action_MainMenu_to_BrowseHousholds"
             app:destination="@id/BrowseHouseholds" />
+        <action
+            android:id="@+id/action_MainMenu_to_groceryListFragment"
+            app:destination="@id/groceryListFragment" />
     </fragment>
     <fragment
         android:id="@+id/BrowseHouseholds"
@@ -66,4 +69,9 @@
             app:destination="@id/BrowseHouseholds"
             app:popUpTo="@id/MainMenu" />
     </fragment>
+    <fragment
+        android:id="@+id/groceryListFragment"
+        android:name="com.example.mealplanner.ui.grocerylist.fragments.GroceryListFragment"
+        android:label="@string/groceries_fragment_title"
+        tools:layout="@layout/fragment_grocery_list" />
 </navigation>
