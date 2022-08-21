@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mealplanner.data.LoadingStatus
+import com.example.mealplanner.databinding.FragmentBrowseHouseholdsBinding
 import com.example.mealplanner.databinding.FragmentLoginBinding
 import com.example.mealplanner.ui.main.MainActivity
 
@@ -21,16 +22,19 @@ class LoginFragment : Fragment() {
     private lateinit var viewModelFactory: LoginViewModelFactory
     private lateinit var viewModel: LoginViewModel
 
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding : FragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         viewModelFactory = LoginViewModelFactory(requireActivity().getSharedPreferences("token_data", Context.MODE_PRIVATE))
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
-        setActions(binding)
+        setActions()
         createObservation()
 
         return binding.root
@@ -40,17 +44,24 @@ class LoginFragment : Fragment() {
         val observer = Observer<LoadingStatus> { status ->
             if(status == LoadingStatus.SUCCESS) {
                 val intent = Intent(this.activity, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
             } else if(status == LoadingStatus.LOADING) {
                 Log.d("LOGIN_FRAGMENT", "Logging in...")
+                binding.login.isEnabled = false
+                binding.username.isEnabled = false
+                binding.password.isEnabled = false
             } else if(status == LoadingStatus.FAILED) {
                 Log.d("LOGIN_FRAGMENT", "Failed logging in...")
+                binding.login.isEnabled = true
+                binding.login.isClickable = true
+                binding.login.isEnabled = true
             }
         }
         viewModel.loadingStatus.observe(viewLifecycleOwner, observer)
     }
 
-    private fun setActions(binding: FragmentLoginBinding){
+    private fun setActions(){
         binding.login.setOnClickListener {
             viewModel.loginUser()
         }
