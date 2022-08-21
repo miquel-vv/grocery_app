@@ -44,10 +44,11 @@ class GroceryListViewModel(private val repo:GroceryListRepository,
             item.status = GroceryItemStatus.OPEN
         }
         uiScope.launch {
-            Log.d(TAG, "groceryItemChecked: Saving grocery item.")
             try {
+                println("Updating first time")
                 repo.updateGroceryItem(item)
             } catch (e: SQLiteConstraintException){
+                println("caught exception")
                 val other = repo.findOtherBySpoonIdAndStatus(item)!!
                 other.amount += item.amount
                 repo.deleteGroceryItem(item)
