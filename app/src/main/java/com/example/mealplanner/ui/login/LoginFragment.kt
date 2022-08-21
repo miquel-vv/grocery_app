@@ -10,10 +10,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mealplanner.data.LoadingStatus
-import com.example.mealplanner.databinding.FragmentBrowseHouseholdsBinding
 import com.example.mealplanner.databinding.FragmentLoginBinding
 import com.example.mealplanner.ui.main.MainActivity
 
@@ -53,9 +53,11 @@ class LoginFragment : Fragment() {
                 binding.password.isEnabled = false
             } else if(status == LoadingStatus.FAILED) {
                 Log.d("LOGIN_FRAGMENT", "Failed logging in...")
+                val toast: Toast = Toast.makeText(context, "Username or password incorrect", Toast.LENGTH_SHORT)
+                toast.show()
                 binding.login.isEnabled = true
-                binding.login.isClickable = true
-                binding.login.isEnabled = true
+                binding.username.isEnabled = true
+                binding.password.isEnabled = true
             }
         }
         viewModel.loadingStatus.observe(viewLifecycleOwner, observer)

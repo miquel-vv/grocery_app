@@ -47,6 +47,9 @@ object LoginRepository {
                         token = res.body()?.content?.token!!
                         setLoggedInUser(user!!, token)
                         Log.d("LOGIN_REPO", ">>>> Found user: $user")
+                    } else {
+                        _loginStatus.value = LoadingStatus.FAILED
+                        Log.d("LOGIN_REPO", "$res")
                     }
                 }
 
