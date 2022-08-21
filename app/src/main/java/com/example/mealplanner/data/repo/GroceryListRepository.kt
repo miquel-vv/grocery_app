@@ -171,4 +171,15 @@ class GroceryListRepository(val database:GroceryItemDao, val preferences: Shared
             database.insert(item)
         }
     }
+
+    suspend fun deleteGroceryItem(item: GroceryItem){
+        withContext(Dispatchers.IO){
+            database.delete(item)
+        }
+    }
+
+    fun findOtherBySpoonIdAndStatus(item: GroceryItem):GroceryItem?{
+        val list = groceryList.value!!
+        return list.find { it.spoonId == item.spoonId && it.status == item.status && it.id != item.id }
+    }
 }

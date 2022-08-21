@@ -77,9 +77,8 @@ enum class GroceryItemStatus{
     OPEN, SCRAPPED, REMOVED
 }
 
-@Entity(tableName = "grocery_items", primaryKeys = ["spoon_id","status"])
+@Entity(tableName = "grocery_items", indices = [Index(value = ["spoon_id", "status"], unique = true)])
 data class GroceryItem(
-
     @ColumnInfo(name="spoon_id")
     val spoonId:Long,
     @ColumnInfo(name="name")
@@ -90,7 +89,10 @@ data class GroceryItem(
     val unit:String,
     @ColumnInfo(name="status")
     @TypeConverters(Converters::class)
-    val status:GroceryItemStatus = GroceryItemStatus.OPEN) {
+    var status:GroceryItemStatus = GroceryItemStatus.OPEN,
+    @PrimaryKey(autoGenerate = true)
+    val id:Long = 0L
+) {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

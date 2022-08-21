@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.mealplanner.data.model.GroceryItem
 
-@Database(entities = [GroceryItem::class], version = 1, exportSchema = false)
+@Database(entities = [GroceryItem::class], version = 2, exportSchema = false)
 abstract class GroceryListDatabase : RoomDatabase(){
     abstract val groceryItemDao : GroceryItemDao
 
