@@ -1,9 +1,11 @@
-package com.example.mealplanner.data
+package com.example.mealplanner.data.repo
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.mealplanner.data.MealPlannerApi
 import com.example.mealplanner.data.model.*
+import com.example.mealplanner.data.repo.LoginRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

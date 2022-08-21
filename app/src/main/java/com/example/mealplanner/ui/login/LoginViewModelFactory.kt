@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.mealplanner.data.LoginDataSource
-import com.example.mealplanner.data.LoginRepository
+import com.example.mealplanner.data.repo.LoginRepository
 import java.lang.IllegalArgumentException
 
 class LoginViewModelFactory(private val prefs: SharedPreferences) : ViewModelProvider.Factory{

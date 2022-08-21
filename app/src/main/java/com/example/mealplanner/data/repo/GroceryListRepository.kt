@@ -1,10 +1,11 @@
-package com.example.mealplanner.data
+package com.example.mealplanner.data.repo
 
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.example.mealplanner.data.dao.GroceryItemDao
+import com.example.mealplanner.data.MealPlannerApi
+import com.example.mealplanner.data.SpoonApi
+import com.example.mealplanner.data.database.GroceryItemDao
 import com.example.mealplanner.data.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.mealplanner.data.LoadingStatus
-import com.example.mealplanner.data.LoginRepository
+import com.example.mealplanner.data.repo.LoginRepository
 
 class LoginViewModel: ViewModel(){
 

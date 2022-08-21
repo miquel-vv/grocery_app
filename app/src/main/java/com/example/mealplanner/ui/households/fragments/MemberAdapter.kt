@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mealplanner.R
-import com.example.mealplanner.data.LoginRepository
-import com.example.mealplanner.data.model.LoginContent
+import com.example.mealplanner.data.repo.LoginRepository
 import com.example.mealplanner.data.model.Member
 
 class MemberAdapter(private val listener: onMemberListener) : RecyclerView.Adapter<MemberAdapter.ViewHolder>() {

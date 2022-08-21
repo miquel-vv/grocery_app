@@ -1,13 +1,10 @@
 package com.example.mealplanner.ui.users.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mealplanner.data.HouseholdRepository
+import com.example.mealplanner.data.repo.HouseholdRepository
 import com.example.mealplanner.data.LoadingStatus
-import com.example.mealplanner.data.UsersRepository
-import com.example.mealplanner.data.model.User
+import com.example.mealplanner.data.repo.UsersRepository
 
 class AddUserViewModel(val position: Int) : ViewModel() {
 

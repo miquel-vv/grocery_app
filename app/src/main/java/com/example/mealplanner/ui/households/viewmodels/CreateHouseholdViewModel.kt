@@ -2,7 +2,7 @@ package com.example.mealplanner.ui.households.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.mealplanner.data.HouseholdRepository
+import com.example.mealplanner.data.repo.HouseholdRepository
 import com.example.mealplanner.data.LoadingStatus
 
 class CreateHouseholdViewModel : ViewModel() {

@@ -4,9 +4,9 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.mealplanner.data.GroceryListRepository
-import com.example.mealplanner.data.HouseholdRepository
-import com.example.mealplanner.data.dao.GroceryItemDao
+import com.example.mealplanner.data.repo.GroceryListRepository
+import com.example.mealplanner.data.repo.HouseholdRepository
+import com.example.mealplanner.data.database.GroceryItemDao
 import java.lang.IllegalArgumentException
 
 class GroceryListViewModelFactory(private val dataSource: GroceryItemDao, private val application: Application)

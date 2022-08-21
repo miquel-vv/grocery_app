@@ -1,4 +1,4 @@
-package com.example.mealplanner.data.dao
+package com.example.mealplanner.data.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*

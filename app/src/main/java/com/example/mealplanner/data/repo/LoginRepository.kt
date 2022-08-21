@@ -1,8 +1,11 @@
-package com.example.mealplanner.data
+package com.example.mealplanner.data.repo
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.mealplanner.data.LoadingStatus
+import com.example.mealplanner.data.LoginDataSource
+import com.example.mealplanner.data.MealPlannerApi
 import com.example.mealplanner.data.model.LoginBody
 import com.example.mealplanner.data.model.LoginResponse
 import com.example.mealplanner.data.model.MembershipLink
@@ -15,7 +18,7 @@ import java.lang.Exception
 
 object LoginRepository {
 
-    private var dataSource:LoginDataSource? = null
+    private var dataSource: LoginDataSource? = null
 
     private var user:User? = null
     private var token:String = ""
@@ -25,7 +28,7 @@ object LoginRepository {
         get() = _loginStatus
 
     fun init(dataSource: LoginDataSource){
-        this.dataSource = dataSource
+        LoginRepository.dataSource = dataSource
     }
 
     fun login(email:String, password:String){
@@ -56,36 +59,36 @@ object LoginRepository {
     }
 
     private fun setLoggedInUser(user: User, token: String){
-        this.user = user
-        this.token = token
+        LoginRepository.user = user
+        LoginRepository.token = token
         dataSource!!.storeToken(token)
-        this._loginStatus.value = LoadingStatus.SUCCESS
+        _loginStatus.value = LoadingStatus.SUCCESS
     }
 
     fun logout() {
         user = null
         token = ""
-        this._loginStatus.value = LoadingStatus.NOT_STARTED
+        _loginStatus.value = LoadingStatus.NOT_STARTED
         dataSource!!.logout()
     }
 
     fun getUserId():Number {
-        if(this._loginStatus.value != LoadingStatus.SUCCESS && this.user != null){
+        if(_loginStatus.value != LoadingStatus.SUCCESS && user != null){
             throw Exception("No user logged in.")
         }
 
-        return this.user!!.id
+        return user!!.id
     }
 
     fun getAuthToken():String {
-        if(this._loginStatus.value != LoadingStatus.SUCCESS && this.token != ""){
+        if(_loginStatus.value != LoadingStatus.SUCCESS && token != ""){
             throw Exception("No user logged in.")
         }
         Log.d("LOGIN_REPO", "Returning token: $token")
-        return "Bearer ${this.token}"
+        return "Bearer $token"
     }
 
     fun getHouseholds():Array<MembershipLink>{
-        return this.user!!.households
+        return user!!.households
     }
 }

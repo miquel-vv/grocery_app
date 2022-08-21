@@ -4,12 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mealplanner.data.HouseholdRepository
+import com.example.mealplanner.data.repo.HouseholdRepository
 import com.example.mealplanner.data.LoadingStatus
-import com.example.mealplanner.data.MemberRepository
+import com.example.mealplanner.data.repo.MemberRepository
 import com.example.mealplanner.data.model.Household
 import com.example.mealplanner.data.model.Member
-import com.example.mealplanner.data.model.User
 
 private const val TAG = "HouseholdViewModel"
 

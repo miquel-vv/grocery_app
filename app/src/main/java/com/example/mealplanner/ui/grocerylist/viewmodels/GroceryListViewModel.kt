@@ -3,8 +3,8 @@ package com.example.mealplanner.ui.grocerylist.viewmodels
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.mealplanner.data.GroceryListRepository
-import com.example.mealplanner.data.HouseholdRepository
+import com.example.mealplanner.data.repo.GroceryListRepository
+import com.example.mealplanner.data.repo.HouseholdRepository
 import com.example.mealplanner.data.model.GroceryItem
 import com.example.mealplanner.data.model.Membership
 import kotlinx.coroutines.*
