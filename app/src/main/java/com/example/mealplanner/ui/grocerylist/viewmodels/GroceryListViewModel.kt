@@ -53,7 +53,13 @@ class GroceryListViewModel(private val repo:GroceryListRepository,
                 repo.deleteGroceryItem(item)
                 repo.updateGroceryItem(other)
             }
+        }
+    }
 
+    fun removeGroceryItem(position: Int){
+        val item = groceryList.value!![position]
+        uiScope.launch{
+            repo.deleteGroceryItem(item)
         }
     }
 

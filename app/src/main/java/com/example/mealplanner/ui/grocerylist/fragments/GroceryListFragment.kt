@@ -73,7 +73,7 @@ class GroceryListFragment : Fragment(), GroceryItemAdapter.OnGroceryItemClickLis
     }
 
     override fun onDeleteGroceryItem(position: Int) {
-        TODO("Not yet implemented")
+        viewModel.removeGroceryItem(position)
     }
 
 }
