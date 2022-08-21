@@ -1,23 +1,19 @@
 package com.example.mealplanner.ui.grocerylist.viewmodels
 
 import android.app.Application
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.mealplanner.data.GroceryListRepo
+import com.example.mealplanner.data.GroceryListRepository
 import com.example.mealplanner.data.HouseholdRepository
-import com.example.mealplanner.data.dao.GroceryItemDao
-import com.example.mealplanner.data.dao.GroceryListDatabase
 import com.example.mealplanner.data.model.GroceryItem
 import com.example.mealplanner.data.model.Membership
 import kotlinx.coroutines.*
 
 private const val TAG = "GROCERY_LIST_VIEW_MODEL"
 
-class GroceryListViewModel(database: GroceryItemDao, application: Application): AndroidViewModel(application) {
-
-    private val repo = GroceryListRepo(database, application.getSharedPreferences("grocery_list", Context.MODE_PRIVATE))
-    private val householdRepo = HouseholdRepository
+class GroceryListViewModel(private val repo:GroceryListRepository,
+                           private val householdRepo:HouseholdRepository,
+                           application: Application): AndroidViewModel(application) {
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)

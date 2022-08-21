@@ -14,7 +14,7 @@ import java.lang.RuntimeException
 
 private const val TAG = "GROCERY_LIST_REPO"
 
-class GroceryListRepo(val database:GroceryItemDao, val preferences: SharedPreferences) {
+class GroceryListRepository(val database:GroceryItemDao, val preferences: SharedPreferences) {
 
     private val loginRepo = LoginRepository
     private var groceries:Set<GroceryItem>? = null
