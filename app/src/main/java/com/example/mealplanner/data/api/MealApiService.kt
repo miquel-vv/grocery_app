@@ -20,6 +20,9 @@ interface LoginApiService {
     @POST("auth/login")
     fun login(@Body body: LoginBody): Call<LoginResponse>
 
+    @POST("auth/register")
+    fun register(@Body body: RegisterBody): Call<RegisterResponse>
+
     @GET("users/{id}")
     fun get(@Path("id") userId:Number, @Header("Authorization") authorization:String):
             Call<UserResponse>

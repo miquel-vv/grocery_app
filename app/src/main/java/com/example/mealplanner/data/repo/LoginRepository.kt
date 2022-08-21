@@ -6,10 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import com.example.mealplanner.data.LoadingStatus
 import com.example.mealplanner.data.LoginDataSource
 import com.example.mealplanner.data.MealPlannerApi
-import com.example.mealplanner.data.model.LoginBody
-import com.example.mealplanner.data.model.LoginResponse
-import com.example.mealplanner.data.model.MembershipLink
-import com.example.mealplanner.data.model.User
+import com.example.mealplanner.data.model.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,6 +25,10 @@ object LoginRepository {
     private val _loginStatus = MutableLiveData(LoadingStatus.NOT_STARTED)
     val loadingStatus : LiveData<LoadingStatus>
         get() = _loginStatus
+
+    private val _registerStatus = MutableLiveData<LoadingStatus>(LoadingStatus.NOT_STARTED)
+    val registerStatus : LiveData<LoadingStatus>
+        get() = _registerStatus
 
     fun init(dataSource: LoginDataSource){
         LoginRepository.dataSource = dataSource
@@ -59,6 +62,31 @@ object LoginRepository {
                 }
             }
         )
+    }
+
+    fun register(email:String, firstName:String, lastName:String, password:String){
+        _registerStatus.value = LoadingStatus.LOADING
+        val body = RegisterBody(email, firstName, lastName, password)
+        MealPlannerApi.loginService.register(body).enqueue(object : Callback<RegisterResponse>{
+            override fun onResponse(
+                call: Call<RegisterResponse>,
+                res: Response<RegisterResponse>
+            ) {
+                if(res.isSuccessful){
+                    _registerStatus.value = LoadingStatus.SUCCESS
+                } else {
+                    _registerStatus.value = LoadingStatus.FAILED
+                    Log.d("LOGIN_REPO", "$res")
+                    Log.d("LOGIN_REPO", "${res.message()}")
+                    Log.d("LOGIN_REPO", "${res.errorBody()}")
+                }
+            }
+
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                Log.d("LOGIN_REPO", "Error fetching from remote.")
+                _registerStatus.value = LoadingStatus.FAILED
+            }
+        })
     }
 
     private fun setLoggedInUser(user: User, token: String){

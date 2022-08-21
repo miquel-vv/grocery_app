@@ -3,6 +3,7 @@ package com.example.mealplanner.data.model
 
 data class LoginContent(val token: String, val user:User)
 data class LoginResponse(val token:String, val content:LoginContent, val succeeded: Boolean)
+data class RegisterResponse(val token:String, val succeeded: Boolean)
 data class UserResponse(val token: String, val content:User, val succeeded: Boolean)
 data class UserIdResponse(val token: String, val content:Int, val succeeded: Boolean)
 data class HouseholdsResponse(val token:String, val content:List<Membership>, val succeeded: Boolean)

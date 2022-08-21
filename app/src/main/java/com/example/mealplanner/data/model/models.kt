@@ -10,10 +10,10 @@ data class MemberLink(val isOwner: Boolean, val user:Link)
 data class Member(val isOwner: Boolean, val user:User)
 
 data class User(
-    val id:Number = Int.MIN_VALUE,
     val firstName:String,
     val lastName:String,
     val email:String,
+    val id:Number = Int.MIN_VALUE,
     val households:Array<MembershipLink> = arrayOf(),
     val url:Link = Link("s", "s"),
     ) {
