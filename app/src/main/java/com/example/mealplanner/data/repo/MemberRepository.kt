@@ -26,7 +26,7 @@ class MemberRepository(val household: Household) {
     }
 
     private fun _isOwner( memberships : List<Member>):Boolean{
-        val membership = memberships.first() { m -> m.user.id == loginRepo.getUserId()}
+        val membership = memberships.first { m -> m.user.id == loginRepo.getUserId()}
         return membership.isOwner
     }
 

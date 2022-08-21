@@ -25,7 +25,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding : FragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false);
+        val binding : FragmentLoginBinding = FragmentLoginBinding.inflate(inflater, container, false)
 
         viewModelFactory = LoginViewModelFactory(requireActivity().getSharedPreferences("token_data", Context.MODE_PRIVATE))
         viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
@@ -33,7 +33,7 @@ class LoginFragment : Fragment() {
         setActions(binding)
         createObservation()
 
-        return binding.root;
+        return binding.root
     }
 
     private fun createObservation() {

@@ -27,7 +27,7 @@ class LoginDataSource(private val prefs: SharedPreferences) {
 
     fun getUserIdFromToken(token:String):Int{
         val decodedJWT = JWT.decode(token)
-        val jsonString = String(Base64.getDecoder().decode(decodedJWT.payload), Charset.defaultCharset());
+        val jsonString = String(Base64.getDecoder().decode(decodedJWT.payload), Charset.defaultCharset())
 
         val user = Gson().fromJson(jsonString, Payload::class.java)
         return user.id
